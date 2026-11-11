@@ -111,8 +111,13 @@ Depoda kişisel video yoktur. Kendi videonuzu WebM biçiminde `public/dugun-kame
 - Aynı kişi yeniden yazdığında ikinci karakter oluşmaz.
 - Profil fotoğrafı olay paketinde gelirse baloncukta görünür; yoksa baş harfler gösterilir. Fotoğraflar için eski oturum isimlerinden otomatik sorgu yapılmaz.
 - Normal yorumlar kısa konuşma balonu olarak görünür; yoğunlukta tüm mesajlar gösterilmeyebilir.
-- Hediye tablosunu hesabınızın TikTok seçicisindeki fiyatlarla karşılaştırın. Rol/efekt, tanımlı hediye kimliği ve birim fiyatla eşleştirilir. Seri adedi birim fiyat değildir.
-- Panelde **Hediye ve jeton ayarları** ile alternatif eşik modunu, **Halay ve kamera ayarları** ile sıra biçimi ve kamera gezintilerini değiştirin.
+- **TikTok hediye eşleştirmeleri** bölümünü açın. Euler bağlantısından sonra **TikTok hediyelerini getir** düğmesine basın. Katalog Euler üzerinden alınır; canlı yayında görülen hediyeler de listeye eklenir.
+- Adıyla arama yapıp Altın tak, Halaybaşı ol, Davul çal, Zurna çal, Konfeti patlat, Para saç, Gelin ol ve Damat ol eylemleri için hediyeleri seçin. **Eşleştirmeleri kaydet** düğmesine basın.
+- Yeni kurulumda hediye eşleştirmeleri boştur. Boş bırakılan eylem devre dışıdır; aynı hediye iki eyleme atanamaz. Kaydınız bu bilgisayarda `hediye-ayarlari.json` içinde kalır, GitHub'a gitmez.
+- Jeton fiyatını TikTok belirler. Eylem, gelen hediye kimliğiyle eşleşir; fiyat değişse de seçilen hediye çalışır. Seri hediyenin ilk bildirimi rolü/efekti başlatır, bitiş bildirimi aynı rolü tekrar vermez.
+- İzleyici TikTok'un kendi hediye menüsünden gönderir. **Oyun görüntüsünde ek hediye rehberi göster** varsayılan olarak kapalıdır. İstenirse isim–eylem rehberi açılır; sabit jeton fiyatı yazılmaz.
+- Bu ayarlar TikTok'un kendi arayüzündeki tıklanabilir hediye listesini oluşturmaz veya düzenlemez. LIVE Studio'nun sunduğu yerel etkileşimli paneli kullanıyorsanız oradaki eylemlerde de aynı hediyeleri seçin; oyunun eşleştirmesini burada ayrıca kaydedin.
+- Katalog gelmezse bağlantı/kota durumunu kontrol edip tekrar deneyin. Mevcut eşleştirmeler silinmez. **Halay ve kamera ayarları** ile sıra biçimi ve kamera gezintilerini değiştirin.
 
 ## 10. Sorun giderme
 

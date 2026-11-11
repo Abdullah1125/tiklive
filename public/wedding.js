@@ -40,6 +40,7 @@ export function weddingGift(id,name='',coins) {
 
 export const defaultGiftRules = {
   mode:'named',
+  assignments:{},showGuide:false,
   minimum:{gold:2, leader:1, confetti:5, money:10, drummer:20, piper:30, groom:50, bride:100}
 };
 
@@ -49,7 +50,32 @@ export function checkGiftRules(rules) {
   const prices=Object.values(minimum);
   if (prices.some(n=>!Number.isSafeInteger(n) || n<1)) throw Error('Her rol için pozitif bir tam sayı gir.');
   if (new Set(prices).size!==prices.length) throw Error('İki rol aynı jeton değerinden başlayamaz.');
-  return {mode:rules.mode,minimum};
+  const result={mode:rules.mode,minimum,showGuide:rules.showGuide===true};
+  if(rules.assignments!==undefined){
+    if(!rules.assignments || typeof rules.assignments!=='object' || Array.isArray(rules.assignments))throw Error('Hediye eşleştirmeleri geçersiz.');
+    const assignments={},seen=new Set();
+    for(const gift of gifts){
+      const value=rules.assignments[gift.key];if(value==null)continue;
+      const id=String(value.id||'');
+      if(!/^\d{1,20}$/.test(id) || id==='0' || typeof value.name!=='string' || !value.name.trim())throw Error(gift.action+' için geçerli bir TikTok hediyesi seç.');
+      if(seen.has(id))throw Error('Aynı hediye iki farklı eyleme atanamaz.');
+      seen.add(id);assignments[gift.key]={id,name:value.name.trim().slice(0,80)};
+    }
+    result.assignments=assignments;
+  }
+  return result;
+}
+
+export function selectedGifts(rules){
+  if(rules?.assignments===undefined)return gifts;
+  return gifts.filter(g=>rules.assignments[g.key]).map(g=>({...g,name:rules.assignments[g.key].name,ids:[rules.assignments[g.key].id],custom:true}));
+}
+
+export function resolveWeddingGift(rules,event){
+  if(rules?.mode==='coins')return giftForCoins(rules,event.coins);
+  if(rules?.assignments===undefined)return weddingGift(event.giftId,event.gift,event.coins);
+  // TikTok owns prices; a selected gift is identified by its immutable ID.
+  return selectedGifts(rules).find(g=>g.ids.includes(String(event.giftId)));
 }
 
 export function coinBands(rules) {

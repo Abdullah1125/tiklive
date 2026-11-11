@@ -1,7 +1,8 @@
+import {setupGiftSettings} from './gift-settings.js';
 import {setupPlaylist} from './playlist.js';
 import {setupWedding} from './wedding-view.js';
 import {figures,commandNames,checkChoreography} from './choreography.js';
-import {gifts,defaultGiftRules,checkGiftRules,defaultSceneSettings,checkSceneSettings} from './wedding.js';
+import {defaultSceneSettings,checkSceneSettings} from './wedding.js';
 import {fillIcons, icon} from './icons.js';
 import {mountScene} from './stage.js';
 import {games, stageText, subscribe} from './shared.js';
@@ -11,6 +12,7 @@ const scene = mountScene($('scene'));
 const dialog = $('connection');
 const weddingView=setupWedding();
 const playlistView=setupPlaylist();
+const giftSettingsView=setupGiftSettings(control);
 const clock = new Intl.DateTimeFormat('tr-TR', {hour:'2-digit',minute:'2-digit',second:'2-digit'});
 const format = new Intl.NumberFormat('tr-TR');
 let current;
@@ -103,15 +105,7 @@ function render(s) {
     $('danceEnergy').value=String(settings.energy);
     $('cameraTours').value=settings.tours?'on':'off';
   }
-  const rules=s.giftRules || defaultGiftRules;
-  $('giftSettings').hidden=s.game!=='halay';
-  const version=JSON.stringify(rules);
-  if(version!==ruleVersion){
-    ruleVersion=version;
-    $('ruleMode').value=rules.mode;
-    for(const g of gifts) $('min-'+g.key).value=rules.minimum[g.key];
-    showRuleMode();
-  }
+  giftSettingsView(s);
   document.querySelector('.local').lastChild.textContent = 'Yerel sunucu';
   stageText(s, document.querySelector('.arcade'), $('mode'), $('stageCmd'));
   $('players').textContent = format.format(s.players.length+Object.keys(s.roles||{}).length);
@@ -147,7 +141,7 @@ function buildLibrary() {
     mountScene(article.querySelector('canvas')).update({game:key});
   }
 }
-let ruleVersion='',settingsVersion='',choreographyVersion='';
+let settingsVersion='',choreographyVersion='';
 const timeLabel=n=>Math.floor(n/60)+':'+String(Math.floor(n%60)).padStart(2,'0');
 function parseMusicTime(text){
   const match=/^(\d{1,3}):([0-5]\d)$/.exec(text.trim());
@@ -186,24 +180,6 @@ $('sceneForm').onsubmit=async e=>{
     const settings=checkSceneSettings({formation:$('formation').value,energy:Number($('danceEnergy').value),tours:$('cameraTours').value==='on'});
     if(await control({action:'sceneSettings',settings}))$('sceneFeedback').textContent='Yayına uygulandı.';
   }catch(error){$('sceneFeedback').textContent=error.message;}
-};
-for(const g of gifts){
-  const label=document.createElement('label'),input=document.createElement('input');
-  input.id='min-'+g.key;input.type='number';input.min='1';input.step='1';input.required=true;
-  label.append(g.action,input);$('ruleInputs').append(label);
-}
-function showRuleMode(){
-  $('coinFields').hidden=$('coinFields').disabled=$('ruleMode').value!=='coins';
-}
-$('ruleMode').onchange=showRuleMode;
-$('ruleForm').oninput=()=>{$('ruleFeedback').textContent='';};
-$('ruleForm').onsubmit=async e=>{
-  e.preventDefault();
-  try {
-    const minimum=Object.fromEntries(gifts.map(g=>[g.key,Number($('min-'+g.key).value)]));
-    const rules=checkGiftRules({mode:$('ruleMode').value,minimum:$('ruleMode').value==='named'?current.giftRules.minimum:minimum});
-    if(await control({action:'giftRules',rules})) $('ruleFeedback').textContent='Ayarlar kaydedildi.';
-  }catch(error){$('ruleFeedback').textContent=error.message;}
 };
 fillIcons();
 buildLibrary();

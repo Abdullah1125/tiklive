@@ -1,4 +1,4 @@
-import {gifts,onAir,defaultGiftRules,coinBands,coinLabel,walkDuration} from './wedding.js';
+import {gifts,onAir,defaultGiftRules,selectedGifts,walkDuration} from './wedding.js';
 import {attachMusicMotion} from './music-motion.js';
 
 const byKey=new Map(gifts.map(g=>[g.key,g]));
@@ -14,22 +14,23 @@ export function setupWedding() {
     const version=JSON.stringify(rules);
     if (guideVersion===version)return;
     guideVersion=version;
-    const rewards=rules.mode==='coins'?coinBands(rules).map(g=>({...g,name:coinLabel(g),icon:'🪙'})):gifts;
+    const rewards=selectedGifts(rules);
+    guide.hidden=rules.showGuide!==true || !rewards.length;
     guide.replaceChildren();
     for (const rule of rewards) {
       const tile=document.createElement('div');
       const icon=document.createElement('span');
       icon.className='gift-symbol';
       icon.setAttribute('aria-hidden','true');
-      icon.textContent=rule.icon;
-      if (rules.mode==='named') {
+      icon.textContent=rule.custom?'🎁':rule.icon;
+      if (!rule.custom) {
         const img=document.createElement('img');
         img.alt='';
         img.onload=()=>icon.replaceChildren(img);
         img.src='/gift-icons/'+rule.key+'.webp';
       }
       const text=document.createElement('div'),name=document.createElement('strong'),action=document.createElement('small');
-      name.textContent=rules.mode==='named' && rule.coins ? rule.name+' · '+rule.coins+' jeton' : rule.name;
+      name.textContent=rule.name;
       action.textContent=rule.action;
       text.append(name,action);tile.append(icon,text);guide.append(tile);
     }

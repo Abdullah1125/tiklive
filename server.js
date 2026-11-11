@@ -2,7 +2,7 @@ import {writeFileSync,renameSync} from 'node:fs';
 import {createServer} from 'node:http';
 import {readFile} from 'node:fs/promises';
 import {createGame, applyEvent, nextRound, note, gameNames} from './src/game.js';
-import {gifts, weddingGift, defaultGiftRules, checkGiftRules, scheduleShot, defaultSceneSettings, checkSceneSettings} from './public/wedding.js';
+import {gifts, resolveWeddingGift, defaultGiftRules, checkGiftRules, scheduleShot, defaultSceneSettings, checkSceneSettings} from './public/wedding.js';
 import {trackVersion,saveTrack,serveTrack} from './src/music.js';
 import {createPlaylist} from './src/playlist.js';
 import {openLive,loadGiftCatalog} from './src/live.js';
@@ -50,6 +50,15 @@ if (process.env.SINYAL_RESUME_FILE) {
   link = {...idleLink, handle:savedHandle};
 }
 let stopLive, broadcastTimer;
+let catalogKey=process.env.EULER_API_KEY || '',catalogUpdated=0,catalogPending;
+const availableGifts=new Map();
+async function refreshGiftCatalog(key=catalogKey){
+  if(catalogPending)return catalogPending;
+  if(!key)throw Object.assign(Error('Önce kendi Euler anahtarınla TikTok hesabını bağla.'),{status:400});
+  if(Date.now()-catalogUpdated<60000 && availableGifts.size)return availableGifts;
+  catalogPending=loadGiftCatalog(key).then(result=>{for(const [id,gift] of result)availableGifts.set(id,gift);catalogUpdated=Date.now();return new Map(availableGifts);}).finally(()=>{catalogPending=null;});
+  return catalogPending;
+}
 let musicVersion=await trackVersion();
 const playlist=await createPlaylist();
 const effectiveMusicVersion=()=>{const p=playlist.snapshot();return p.active?p.tracks.find(t=>t.id===p.current)?.version||0:musicVersion;};
@@ -130,10 +139,10 @@ async function command(body) {
       if (!/^[\w.]{1,24}$/.test(handle)) fail('Geçerli bir TikTok kullanıcı adı girin.');
       const key = String(body.key || process.env.EULER_API_KEY || '').trim();
       if (!key) fail('Euler Stream API anahtarı gerekli.');
-      stopLive?.();
+      stopLive?.();catalogKey=key;
       if (link.handle !== handle) session = newSession(session.game);
       let newBroadcast = false;
-      stopLive = openLive({handle, key, waitForLive:handle === savedHandle, catalog:loadGiftCatalog, canCue:event=>giftRules.mode==='coins'?!!event.coins:!!weddingGift(event.giftId,event.gift,event.coins), onStatus(status, detail) {
+      stopLive = openLive({handle, key, waitForLive:handle === savedHandle, catalog:refreshGiftCatalog, canCue:event=>!!resolveWeddingGift(giftRules,event), onStatus(status, detail) {
         if (link.status !== status || link.detail !== detail || handle !== link.handle) {
           if (status === 'waiting') newBroadcast = true;
           if (status === 'live' && newBroadcast) {
@@ -144,7 +153,7 @@ async function command(body) {
           note(session, 'system', 'TikTok LIVE', detail);
           update();
         }
-      }, onEvent(event) {applyEvent(session, event); update();}});
+      }, onEvent(event) {if(event.giftId && event.gift)availableGifts.set(event.giftId,{name:event.gift,coins:event.coins});applyEvent(session, event); update();}});
       break;
     }
     case 'disconnect':
@@ -158,7 +167,7 @@ async function command(body) {
 }
 const files = new Map([
   ['/', ['index.html','text/html']], ['/overlay',['overlay.html','text/html']],
-  ...['playlist.js','app.js','scene.js','overlay.js','icons.js','shared.js','halay.js','square.js','garden.js','dancers.js','halay-audio.js','music-motion.js','choreography.js','stage.js','wedding.js','wedding-view.js'].map(f => ['/'+f,[f,'text/javascript']]),
+  ...['gift-settings.js','playlist.js','app.js','scene.js','overlay.js','icons.js','shared.js','halay.js','square.js','garden.js','dancers.js','halay-audio.js','music-motion.js','choreography.js','stage.js','wedding.js','wedding-view.js'].map(f => ['/'+f,[f,'text/javascript']]),
   ...gifts.map(({key}) => ['/gift-icons/'+key+'.webp',['gift-icons/'+key+'.webp','image/webp']]),
   ...['leaves','bark','garden-sky','limestone','limestone-normal','travertine','lawn'].map(name => ['/garden/'+name+'.webp',['garden/'+name+'.webp','image/webp']]),
   ['/garden/broadleaf.bin',['garden/broadleaf.bin','application/octet-stream']],
@@ -198,6 +207,10 @@ async function handleRequest(req, res, mobile) {
     }
     if(path==='/music/dugun.mp3' && req.method==='GET')return await serveTrack(req,res);
     if (req.method === 'GET') {
+      if(path==='/api/gifts'){
+        let warning='';try{await refreshGiftCatalog();}catch(error){warning=error.status?error.message:'Katalog alınamadı. Gelen hediyeler listelenir; bağlantını kontrol edip tekrar dene.';}
+        return json(res,200,{gifts:[...availableGifts].map(([id,g])=>({id,name:g.name})),warning});
+      }
       if (path === '/api/state') return json(res, 200, snapshot());
       if (path === '/api/events') {
         res.writeHead(200, {'Content-Type':'text/event-stream', Connection:'keep-alive'});

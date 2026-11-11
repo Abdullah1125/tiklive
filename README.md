@@ -42,18 +42,11 @@ Her yayıncı kendi bilgisayarında kendi hesabı ve API anahtarıyla çalışı
 - Birden fazla MP3 yükleme, sıralama, önceki/sonraki, duraklatma ve döngülü çalma listesi.
 - İsteğe bağlı sessiz, döngülü webcam görünümlü video kutusu.
 
-| Hediye | Yapılandırılmış jeton | Eylem |
-| --- | ---: | --- |
-| Gül | 1 | Altın tak |
-| TikTok | 1 | Halaybaşı ol |
-| Finger Heart | 5 | Davul çal |
-| Türk kahvesi | 5 | Zurna çal |
-| Kalp | 10 | Konfeti patlat |
-| Level Up Arcade | 10 | Para saç |
-| Minik Allık | 20 | Gelin ol |
-| Öfke Modu | 20 | Damat ol |
+## TikTok hediye eşleştirmeleri
 
-Bu tablo uygulamanın varsayılan eşleştirmesidir; TikTok fiyatlarının güncelliği garantisi değildir. Yayından önce hesabınızın hediye seçicisinde kontrol edin. Kimlik ve birim jeton eşleşmesi `public/wedding.js` içinde, alternatif jeton eşikleri paneldedir.
+Yeni kurulumda hediye eylemleri boş başlar. Panelde **TikTok hediye eşleştirmeleri → TikTok hediyelerini getir** seçin; her eyleme istediğiniz hediyeyi atayıp kaydedin. Aynı hediye iki eyleme atanamaz; boş bırakılan eylem kapalıdır.
+
+İzleyici TikTok'un kendi hediye menüsünü kullanır. Fiyatı TikTok belirler; oyun gönderilen **hediye kimliğini** eşleştirir. Sabit bir jeton tablosu dayatılmaz. Oyun üstündeki ek hediye rehberi varsayılan olarak kapalıdır ve panelden isteğe bağlı açılır. Bu panel TikTok'un yerel hediye menüsünü veya LIVE Studio'daki etkileşimli paneli otomatik yapılandırmaz.
 
 ## Gizlilik ve paylaşım
 

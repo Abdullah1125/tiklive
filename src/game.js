@@ -1,4 +1,4 @@
-import {weddingGift, giftForCoins, scheduleShot, avatarUrl} from '../public/wedding.js';
+import {resolveWeddingGift, scheduleShot, avatarUrl} from '../public/wedding.js';
 const colors = ['#fa654e', '#77c9fb', '#f2cb60', '#a693ea', '#75d0a2', '#f68fc1'];
 export const gameNames = {rally: 'Sahil Rallisi', halay: 'Hamam Böcekleri Düğünü'};
 
@@ -46,8 +46,7 @@ export function nextRound(state) {
 
 function weddingAction(state, event, now) {
   const {id, name} = event;
-  const byCoins = state.giftRules?.mode === 'coins';
-  const gift = byCoins ? giftForCoins(state.giftRules,event.coins) : weddingGift(event.giftId,event.gift,event.coins);
+  const gift = resolveWeddingGift(state.giftRules,event);
   if (!gift) return;
   const key = gift.key;
   if (gift?.role) {

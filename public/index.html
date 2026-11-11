@@ -68,12 +68,15 @@
 <button class="primary">Koreografiyi kaydet</button><span id="choreographyFeedback" role="status"></span></form>
 </details>
 <details id="giftSettings" class="card rule-card">
-<summary>Hediye ve jeton ayarları</summary>
-<form id="ruleForm"><label>Eşleştirme<select id="ruleMode"><option value="named">Hediye adına göre</option><option value="coins">Jeton değerine göre</option></select></label>
-<fieldset id="coinFields" hidden><legend>En az kaç jeton?</legend>
-<p>Bir hediyenin tek adetlik değeri, ulaştığı en yüksek eşiği açar. Seri gönderimde aynı rol bir kez verilir.</p>
-<div id="ruleInputs"></div></fieldset>
-<button class="primary">Kaydet</button><span id="ruleFeedback" role="status"></span></form></details>
+<summary>TikTok hediye eşleştirmeleri</summary>
+<p>İzleyici hediyeyi TikTok’un kendi menüsünden gönderir. Burada yalnızca hangi hediyenin oyunda ne yapacağını seçersin; jeton fiyatını TikTok belirler.</p>
+<p id="giftLegacy" hidden>Önceki jeton eşikleri hâlâ etkin. Hediye seçip kaydedince TikTok hediye kimliğine göre eşleştirmeye geçilir.</p>
+<button type="button" class="secondary" id="loadGiftCatalog">TikTok hediyelerini getir</button>
+<label>Hediye ara<input id="giftSearch" type="search" placeholder="Hediye adı veya kimliği"></label>
+<form id="ruleForm"><div id="giftAssignments"></div>
+<label class="guide-choice"><input id="giftGuide" type="checkbox"> Oyun görüntüsünde ek hediye rehberi göster</label>
+<p>Ek rehber varsayılan olarak kapalıdır; TikTok’un kendi hediye menüsünü kullanabilirsin. Buradaki ayar TikTok’un yerel menüsünü değiştirmez.</p>
+<button class="primary">Eşleştirmeleri kaydet</button><span id="ruleFeedback" role="status"></span></form></details>
 </section>
 <section id="games" hidden><div class="library" id="library"></div></section>
 <section id="activity" hidden><article class="card"><header class="cardhead"><h2><i data-icon="feed"></i>Oturum etkinlikleri</h2><span class="muted" id="eventCount"></span></header><ul id="history" class="events"></ul></article></section>
