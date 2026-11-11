@@ -136,6 +136,15 @@ Depoda kişisel video yoktur. Kendi videonuzu WebM biçiminde `public/dugun-kame
 
 Telefon paylaşımı aynı Wi-Fi'da isteğe bağlı görüntü içindir; liste bitiş kontrolü yerel bilgisayar yayın penceresi için tasarlanmıştır. İnternete port açmayın. Yönetim panelini yalnızca yerel bilgisayarda kullanın; herkese açık sunucu barındırma için tasarlanmamıştır.
 
+### Mor şehir görünüyor, 3B düğün görünmüyor
+
+Mor şehir, 3B sahne yüklenemediğinde kullanılan 2B yedek çizimdir. TikTok yayınının kapalı olması 3B sahnenin yüklenmesini engellemez. Güncel sürüm panelde sahne hatasının metnini gösterir.
+
+1. Proje klasöründe `npm ci` çalıştırın, ardından `npm start` ile açın. HTML dosyasını doğrudan açmayın. Güncel sunucu Three.js dosyaları eksikse açık bir kurulum hatasıyla durur.
+2. Paneldeki hata WebGL/context/GPU diyorsa Chrome'da `chrome://settings/system` adresinden grafik hızlandırmayı kontrol edin. Açtıktan sonra tarayıcıyı yeniden başlatın; bu işlem açık yayın/müziği keser, yayından önce yapın. [Google'ın grafik hızlandırma yönergesi](https://support.google.com/meet/answer/9302964).
+3. `chrome://gpu` sayfasında **WebGL2** durumunu kontrol edin. Destek yoksa tarayıcı/işletim sistemi/ekran kartı sürücüsü incelenmelidir; uygulama donanım desteğini sağlayamaz.
+4. Kurulum ve grafik desteği uygunsa paneldeki hata metnini paylaşın. **Önizlemeyi yeniden dene**, yalnızca sahneyi yeniden oluşturur; müzik oynatıcısını sıfırlamaz. Yayın penceresini ayrıca yeniden açmanız gerekebilir.
+
 ## 11. Güncelleme ve paylaşım
 
 Yayını kapattıktan sonra Git ile `git pull`, ardından `npm ci` çalıştırın. Kendi `.env`, `muzik/`, webcam ve ayar dosyalarınızı koruyun. Başka birine yalnızca GitHub bağlantısını gönderin; herkes kendi Euler anahtarını girmeli.

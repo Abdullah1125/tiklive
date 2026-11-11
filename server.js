@@ -1,3 +1,4 @@
+import {checkInstallation} from './src/install.js';
 import {writeFileSync,renameSync} from 'node:fs';
 import {createServer} from 'node:http';
 import {readFile} from 'node:fs/promises';
@@ -9,6 +10,7 @@ import {openLive,loadGiftCatalog} from './src/live.js';
 import {phoneView} from './src/phone-view.js';
 import {emptyChoreography,checkChoreography,makeDirection} from './public/choreography.js';
 
+try{await checkInstallation();}catch(error){console.error(error.message);process.exit(1);}
 const port = Number(process.env.PORT || 4317);
 const savedHandle = (process.env.TIKTOK_LIVE_HANDLE || '').trim().replace(/^@/, '');
 const rulesFile = new URL('./hediye-ayarlari.json',import.meta.url);
