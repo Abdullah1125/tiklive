@@ -1,0 +1,161 @@
+:root{color-scheme:dark;--bg:#111214;--panel:#1b1c20;--border:#303136;--text:#f3f0ee;--muted:#a09fa6;--orange:#ff825c;--mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;font-family:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--text);background:var(--bg);font-synthesis:none}
+*{box-sizing:border-box}body{margin:0}button,input,a{font:inherit}button,a{touch-action:manipulation}button{color:inherit;cursor:pointer;border:0;background:transparent}button:disabled{opacity:.46;cursor:default}button:not(:disabled):active{transform:translateY(1px)}button:focus-visible,a:focus-visible,input:focus-visible{outline:2px solid #ffac80;outline-offset:3px}a{color:inherit;text-decoration:none}i,[data-icon]{display:inline-flex;align-items:center;justify-content:center;font-style:normal;flex-shrink:0}.ico{width:19px;height:19px;display:block;flex-shrink:0}h1,h2,p{margin:0}[hidden]{display:none!important}
+.top{background:#191a1d;border-bottom:1px solid var(--border)}.top-inner{max-width:1536px;margin:auto;padding:0 clamp(20px,4.25vw,75px);height:70px;display:flex;align-items:center;gap:clamp(28px,5.5vw,100px)}.brand{display:flex;align-items:center;gap:10px;font-size:22px;letter-spacing:-1.2px;font-weight:780}.brand .light{font-weight:400;color:#cac8cd}.top nav{align-self:stretch;display:flex;gap:26px}.top nav button{position:relative;display:flex;align-items:center;gap:9px;font-size:14px;color:var(--muted);padding:0 2px;font-weight:550}.top nav button.selected{color:#ff976f}.top nav .selected:after{content:"";height:2px;position:absolute;inset:auto 0 0;background:var(--orange)}.top nav button:hover,.subtle:hover,.output a:hover{color:var(--text)}.local,.console-foot{display:flex;align-items:center;gap:9px;color:#b8b9b9;font:11px var(--mono)}.local{margin-left:auto}.dot{width:7px;height:7px;display:inline-block;background:#83d1a6;flex-shrink:0;border-radius:100%}.local .dot{box-shadow:0 0 0 4px #83d1a611}
+main{max-width:1536px;margin:auto;padding:clamp(26px,3vw,50px) clamp(20px,4.25vw,75px) 56px}.pagehead{display:flex;justify-content:space-between;align-items:center;margin-bottom:27px;gap:16px}.pagehead h1{font-size:clamp(32px,3vw,46px);font-weight:680;letter-spacing:-1.9px;line-height:1.13}.pagehead p{color:var(--muted);font-size:14px;line-height:1.6;margin-top:8px}.primary,.secondary{display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:12px 17px;border-radius:8px;font-size:13px;font-weight:680}.primary{background:var(--orange);color:#271810}.primary:hover{background:#ff9979}.secondary{background:#313238}
+.grid,.lower{display:grid;grid-template-columns:minmax(0,2.14fr) minmax(270px,1fr);gap:20px}.lower{margin-top:20px;align-items:start}.card{border:1px solid var(--border);background:var(--panel);border-radius:13px;overflow:hidden}.cardhead{min-height:55px;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:12px 20px}.cardhead h2,.dialog-head h2{font-size:16px;letter-spacing:-.4px;font-weight:630;display:flex;align-items:center;gap:10px}.cardhead h2 i{color:#afaeb4}.subtle{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:#aaa9b1;padding:6px}.subtle .ico,.output a .ico{width:15px;height:15px}.stage{position:relative;isolation:isolate;overflow:hidden;background:#30263a;aspect-ratio:2.26}.stage canvas,.game-art canvas,.overlay canvas{display:block;width:100%;height:100%;image-rendering:pixelated}.stage-title{position:absolute;top:9%;left:4.6%;pointer-events:none}.arcade{display:inline-block;font:italic 1000 clamp(29px,3.25vw,60px)/.87 "Arial Black",Impact,"Helvetica Neue",sans-serif;letter-spacing:-.055em;color:#fff3cb;text-shadow:2px 2px #793e56,3px 3px #793e56,4px 5px #462646;transform:skew(-6deg)}.stage-mode,.stage-cmd,.full{position:absolute;color:white;background:#1b1722d9;border:1px solid #ffffff28;border-radius:5px}.stage-mode{right:14px;top:14px;display:flex;align-items:center;gap:7px;padding:6px 8px;font:600 9px var(--mono);letter-spacing:.8px}.stage-mode .dot{background:#ffb07d;width:5px;height:5px}.stage-cmd{left:14px;bottom:12px;padding:6px 9px;font:11px var(--mono);letter-spacing:-.2px}.stage-cmd b{color:#ffbc98}.full{right:14px;bottom:12px;padding:6px;display:grid;place-items:center}.full .ico{width:15px;height:15px}.stage:fullscreen{width:100vw;height:100vh}.stats{display:grid;grid-template-columns:repeat(3,1fr);padding:18px 7px}.stats>div{display:flex;align-items:center;gap:12px;padding:0 15px}.stats>div+div{border-left:1px solid var(--border)}.stat-ico,.action-icon{width:36px;height:36px;display:grid;place-items:center;border-radius:9px}.peach{color:#ff986f;background:#3c2c28}.pink{color:#e997ad;background:#372930}.lilac{color:#b9a4ed;background:#322d40}.mint{color:#82d6bc;background:#233831}.stats small{display:block;color:var(--muted);font-size:11px;font-weight:520;margin-bottom:2px}.stats strong{font:600 20px var(--mono);letter-spacing:-1px}.console .cardhead,.lower .cardhead,#activity .cardhead{border-bottom:1px solid var(--border)}.console{display:flex;flex-direction:column}.console-body{padding:18px 19px 13px;display:flex;flex-direction:column;flex:1}.console label,dialog label{display:block;font-size:12px;font-weight:550;color:#c8c7cb;margin-bottom:8px}input{color:var(--text);background:#151619;border:1px solid #393a40;border-radius:6px;padding:10px 12px;min-width:0}.input-wrap{display:flex;align-items:center;gap:8px;background:#151619;border:1px solid #393a40;border-radius:7px;padding:0 12px}.input-wrap span{color:#85858d;font:13px var(--mono)}.input-wrap input{width:100%;background:none;border:0;padding:9px 0;font:13px var(--mono)}.actions{display:grid;gap:8px;margin:16px 0}.actions button{width:100%;text-align:left;display:flex;align-items:center;gap:11px;padding:10px 12px;border:1px solid #38393e;border-radius:8px;background:#232428}.actions button:hover:not(:disabled){background:#2a2b30;border-color:#515259}.actions button>i{margin-left:auto;color:#8d8d97}.actions button>i .ico{width:16px}.actions strong,.actions small{display:block}.actions strong{font-size:13px;font-weight:610}.actions small{font-size:11px;color:#aba9b0;margin-top:3px}.console-foot{font-size:10px;border-top:1px solid var(--border);padding-top:13px;margin-top:auto;color:#aeafb2}.console-foot .dot{width:5px;height:5px}.events{margin:0;padding:1px 20px;list-style:none}.events li{display:flex;gap:10px;align-items:center;min-height:46px;font-size:13px;color:#b6b5bb;overflow-wrap:anywhere}.events li+li{border-top:1px solid #2c2d31}.events strong{color:#e4e2e4;font-weight:600}.events time,.muted{color:#9998a0;font:10px var(--mono)}.events time{margin-left:auto}.event-icon{width:26px;height:26px;display:grid;place-items:center;border-radius:6px;flex-shrink:0}.event-icon .ico{width:14px;height:14px}.neutral{color:#a8acb8;background:#2a2c33}.output a{color:#aba9b0}.output-body{padding:16px 18px 18px}.output-body p,.dialog-head+p{color:#afadb5;font-size:12px;line-height:1.5;margin-bottom:12px}.copy{display:flex;background:#141518;border:1px solid var(--border);border-radius:7px;padding:4px}.copy input{width:100%;border:0;background:transparent;font:11px var(--mono);padding:6px}.copy button,.square{background:#323338;border-radius:5px;font-size:11px;padding:7px 9px}
+.library{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}.game-art{height:200px;background:#332b40}.game-body{padding:18px}.game-body h2{font-size:22px}.game-body p{margin:8px 0 16px;color:var(--muted);font-size:14px;line-height:1.5}dialog{color:var(--text);background:var(--panel);border:1px solid #424249;border-radius:14px;padding:22px;width:min(425px,94vw)}dialog::backdrop{background:#050609b8;backdrop-filter:blur(4px)}.dialog-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}.square{display:grid;place-items:center}dialog input{width:100%;margin-bottom:14px;font-size:14px}dialog small{color:var(--muted);font-size:12px;line-height:1.5;display:block}dialog small a{color:var(--orange)}.dialog-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:18px}.feedback{font-size:13px;color:#ffd0b5;margin-top:12px;line-height:1.5}#toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);z-index:9;padding:12px 16px;background:#eeebe8;color:#221e20;border-radius:9px;font-weight:550;font-size:13px;box-shadow:0 5px 30px #0006;text-align:center}.overlay{width:100vw;height:100dvh;overflow:hidden;position:relative}.overlay .arcade{font-size:clamp(36px,6vw,110px)}.overlay .stage-cmd{font-size:clamp(16px,2.3vw,44px);left:4%;bottom:5%;padding:.5em .8em}.overlay .stage-mode{top:4%;right:4%;font-size:clamp(12px,1.6vw,32px)}
+@media(min-width:1500px){.console-body{padding:24px}.actions{gap:13px}.actions button{padding:15px}.cardhead{min-height:64px}}
+@media(max-width:950px){.grid,.lower{gap:12px;grid-template-columns:minmax(0,1.8fr) minmax(245px,1fr)}.stage{aspect-ratio:1.65}.stats>div{gap:7px;padding:0 8px}.stat-ico{width:29px;height:29px}.top nav{gap:15px}.cardhead{padding-inline:14px}.console-body{padding-inline:13px}}
+@media(max-width:720px){.top-inner{height:auto;min-height:58px;flex-wrap:wrap;gap:0;padding:12px 18px 0}.brand{font-size:20px}.brand img{width:30px;height:30px}.local{font-size:10px}.top nav{order:3;width:100%;gap:23px;height:44px}.top nav button{font-size:12px}.top nav .ico{width:15px;height:15px}.pagehead{flex-wrap:wrap;gap:15px}.pagehead h1{font-size:32px}.pagehead p{font-size:13px}.grid,.lower,.library{grid-template-columns:1fr}.lower{margin-top:12px}.stage{aspect-ratio:1.85}.console-body{padding:15px}.actions button{padding:9px}.arcade{font-size:clamp(30px,7vw,48px)}.stats{padding:14px 6px}.stats>div{justify-content:center}.stats small{font-size:10px}.cardhead h2{font-size:15px}.console-foot{padding-top:11px}.game-art{height:175px}}
+
+/* Wedding stage and nameplates. */
+.stage[data-game=halay]{aspect-ratio:1.7}
+[data-game=halay]{background:linear-gradient(#91c3ce 0%,#ecd3b2 65%,#f7c98b)}
+[data-game=halay] canvas{image-rendering:auto}
+[data-game=halay] .stage-title{top:5%;left:3.4%}
+[data-game=halay] .arcade{font:italic 760 clamp(22px,2.55vw,45px)/.85 Georgia,serif;transform:rotate(-4deg);letter-spacing:-.065em;color:#fff5cc;text-shadow:0 2px 1px #693d33,1px 3px 0 #815845}
+.dancer-labels{position:absolute;inset:0;pointer-events:none;overflow:hidden}.dancer-tag{position:absolute;transform:translate(-50%,-95%);max-width:24%;display:flex;align-items:center;gap:.38em;white-space:nowrap;background:#251e24b8;border:1px solid #ffffff48;color:white;border-radius:999px;padding:.12em .65em .12em .12em;box-shadow:0 2px 5px #100b1438;font:600 clamp(8px,.70vw,13px)/1.15 system-ui,sans-serif}.dancer-avatar{position:relative;flex:0 0 1.85em;width:1.85em;height:1.85em;border:1.5px solid #fff;border-radius:50%;overflow:hidden;box-sizing:border-box;display:grid;place-items:center}.dancer-avatar img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}.dancer-initials{font-size:.77em;font-weight:700;color:white}.dancer-name{min-width:0;overflow:hidden;text-overflow:ellipsis;padding-block:.12em;text-shadow:0 1px 2px #0008}.dancer-tag.special{background:#45321fe8;color:#fff1c8;border-color:#f6ce8299}
+.sound-toggle,.wedding-callout{position:absolute;background:#30211fe8;color:#fff4df;border:1px solid #fff7dc66;border-radius:7px;padding:5px 8px}.sound-toggle{bottom:12px;right:55px;font-size:11px}.wedding-callout{bottom:17%;left:50%;transform:translateX(-50%);text-align:center;max-width:88%;width:max-content;font-weight:680;font-size:clamp(13px,1.15vw,23px);pointer-events:none}
+
+
+.gift-select select{display:block;width:100%;background:#252328;border:1px solid #484046;color:#f4e9e4;border-radius:7px;padding:9px 8px;margin-top:7px;font:13px system-ui}.console label.gift-select{margin:5px 0 0}
+.overlay{display:flex;flex-direction:column}.broadcast-stage{flex:1;min-height:0;position:relative;overflow:hidden}.overlay .sound-toggle{bottom:3%;right:3%;font-size:clamp(10px,1.4vw,26px)}.overlay .dancer-tag{font-size:clamp(8px,1.6vw,25px);max-width:24%}.overlay [data-game=halay] .arcade{font-size:clamp(28px,6vw,92px)}.overlay .wedding-callout{font-size:clamp(12px,2.6vw,44px)}.overlay .stage-cmd{bottom:3%;font-size:clamp(9px,1.8vw,26px)}
+@media(max-width:720px){.stage[data-game=halay]{aspect-ratio:1.32}.stage-cmd{font-size:9px;left:6px}.sound-toggle{font-size:10px;right:43px}.full{right:7px}}
+@media(min-aspect-ratio:1/1){
+  .overlay [data-game=halay] .arcade{font-size:clamp(27px,3.25vw,62px)}
+  .overlay .dancer-tag{font-size:clamp(9px,1.02vw,19px)}
+
+}
+@media(max-aspect-ratio:1/1){.overlay [data-game=halay] .arcade{font-size:clamp(23px,5.1vw,70px)}}
+[data-shot]:not([data-shot=wide]) .stage-title{opacity:0}
+[data-shot] .stage-title{transition:opacity .18s}
+.dancer-tag.featured{background:#42222d;border-color:#ffe1a3;color:#fff6df;font-size:clamp(12px,1.35vw,25px);box-shadow:0 2px 5px #24111955}
+
+
+.track-settings:not([hidden]){display:flex;align-items:center;justify-content:space-between;padding:10px 16px;gap:1em;background:#fbf6ed}.track-settings strong,.track-settings small{display:block;font:600 13px/1.45 system-ui}.track-settings small{font-weight:400;color:#63585b}.track-settings label{position:relative;overflow:hidden;cursor:pointer;border:1px solid #c8b7a8;padding:6px 12px;border-radius:6px;font-weight:600}.track-settings input{position:absolute;inset:0;opacity:0;width:100%;cursor:pointer}.track-settings label:focus-within{outline:2px solid #573e80}
+
+.track-settings .sound-toggle{position:static;margin-left:auto;background:#fff;color:#503e43;border:1px solid #c8b7a8;padding:6px 10px}.track-settings .sound-toggle:disabled{opacity:.5}.track-settings:not([hidden]){flex-wrap:wrap}
+
+/* The same overlay follows the preview or broadcast stage at any size. */
+.broadcast-stage, #preview { container-type: size; }
+.wedding-deck {
+  --glass: rgba(23, 19, 22, .63);
+  --hud-inset: 4%;
+  --hud-type: clamp(12px, min(3.6cqw, 2.8cqh), 44px);
+  position: absolute;
+  z-index: 4;
+  inset: 0;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  pointer-events: none;
+  color: #fff;
+  font: 700 var(--hud-type)/1.14 system-ui, sans-serif;
+}
+.gift-guide, .wedding-join {
+  background: var(--glass);
+  border: 1px solid rgba(255,255,255,.22);
+  border-radius: .8em;
+  box-shadow: 0 2px 8px rgba(20,12,14,.2);
+  text-shadow: 0 1px 2px rgba(0,0,0,.7);
+}
+.gift-guide {
+  position: absolute;
+  top: 14%;
+  right: var(--hud-inset);
+  width: 36%;
+  padding: .28em .6em;
+}
+.gift-guide > div {
+  display: flex;
+  align-items: center;
+  gap: .45em;
+  min-height: 2.72em;
+  padding: .24em 0;
+}
+.gift-guide > div + div { border-top: 1px solid rgba(255,255,255,.15); }
+.gift-symbol {
+  width: 1.82em;
+  height: 1.82em;
+  flex: none;
+  display: grid;
+  place-items: center;
+  line-height: 1;
+}
+.gift-symbol img { display: block; width: 100%; height: 100%; object-fit: contain; }
+.gift-guide small, .gift-guide strong { display: block; }
+.gift-guide strong { margin-bottom: .12em; font-size: .74em; font-weight: 620; color: #f6ebdd; }
+.gift-guide small { font-size: 1em; line-height: 1.05; font-weight: 750; }
+.wedding-host { position: absolute; top: 0; left: 0; display: grid; justify-items: start; gap: .5em; }
+.wedding-host .wedding-join { margin-left: .5em; }
+.wedding-cam {
+  display: block;
+  width: clamp(110px, 34cqw, 440px);
+  aspect-ratio: 16/9;
+  object-fit: cover;
+  border: 1px solid rgba(255,255,255,.62);
+  border-radius: 0 0 .65em 0;
+  background: #20181a;
+}
+.wedding-join { display: grid; gap: .16em; padding: .42em .62em .52em; }
+.wedding-join small { color: #f2e7d9; font-size: .76em; font-weight: 600; }
+.wedding-join span { white-space: nowrap; font-weight: 630; }
+.wedding-join b { display: inline-block; min-width: 2em; color: #ffdd99; font-weight: 800; }
+[data-game=halay] :is(.stage-cmd, .stage-title) { display: none; }
+.stage-mode, .full, .wedding-callout { z-index: 3; }
+@container (min-aspect-ratio: 1/1) {
+  .wedding-deck { --hud-type: clamp(10px, 2.9cqh, 35px); }
+  .gift-guide { top: 10%; right: 2.5%; width: max-content; max-width: 30%; }
+  .wedding-cam { width: clamp(110px, 23cqw, 340px); }
+}
+.wedding-chat-bubble {
+  position: absolute;
+  z-index: 3;
+  pointer-events: none;
+  width: max-content;
+  max-width: 42%;
+  background: #fff8ed;
+  color: #302322;
+  border: 1px solid rgba(70,45,38,.32);
+  box-shadow: 0 2px 9px rgba(30,15,17,.28);
+  border-radius: .83em;
+  padding: .43em .68em .50em;
+  font: 620 clamp(12px,min(3.65cqw,3.2cqh),42px)/1.18 system-ui,sans-serif;
+  overflow-wrap: anywhere;
+}
+.wedding-chat-bubble strong, .wedding-chat-bubble span { display: block; }
+.wedding-chat-bubble strong {
+  margin-bottom: .14em; color: #823e30; font-size: .77em; font-weight: 750;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.wedding-chat-bubble span {
+  display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
+  unicode-bidi: plaintext;
+}
+.wedding-chat-bubble.anchored { transform: translate(-50%,-100%); }
+.wedding-chat-bubble::after {
+  content: ""; position: absolute; bottom: -.42em; left: 50%;
+  width: .75em; height: .75em; background: #fff8ed;
+  border-right: 1px solid rgba(70,45,38,.32); border-bottom: 1px solid rgba(70,45,38,.32);
+  transform: translateX(-50%) rotate(45deg);
+}
+.wedding-chat-bubble.floating { left: 4%; top: 49%; }
+.wedding-chat-bubble.floating::after { left: 1.2em; }
+
+.dancer-labels.crowded .dancer-tag:not(.featured){max-width:16%;font-size:clamp(8px,1.14vw,15px)}
+
+.rule-card{padding:16px 20px;margin:18px 0}.rule-card summary{cursor:pointer;font-weight:700}
+.rule-card form{margin-top:16px}.rule-card label,#coinTest{display:grid;gap:5px;font-size:13px}
+.rule-card select,.rule-card input,#coinTest input{padding:7px 10px;border:1px solid #d4d5d2;border-radius:6px;background:white;color:#272727}
+.rule-card select{max-width:260px}.rule-card fieldset{border:0;padding:0;margin:15px 0}.rule-card legend{font-weight:650}
+.scene-fields{display:flex;flex-wrap:wrap;gap:16px}.scene-fields label{flex:1;min-width:170px}.scene-fields select{width:100%;max-width:none}#sceneForm p{font-size:13px;color:#686b65}#sceneFeedback{font-size:13px;margin-left:10px}
+.wedding-remote{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}.wedding-remote button{border:1px solid #d5c7ae;background:#fff8ed;color:#413729;border-radius:8px;padding:11px 14px;font-weight:650}#directionFeedback,#choreographySettings p,#choreographyFeedback{font-size:13px;color:inherit;opacity:.8}.music-section{display:grid;grid-template-columns:1fr 1fr 1.6fr .8fr auto;gap:10px;align-items:end;margin:12px 0}.music-section input,.music-section select{width:100%;min-width:0}.music-section button{margin:0;padding:9px}.music-section label{min-width:0}@media(max-width:650px){.music-section{grid-template-columns:1fr 1fr}.music-section button{justify-self:start}}
+.rule-card fieldset p{font-size:13px}.rule-card button{margin-top:12px}#ruleFeedback{margin-left:10px;font-size:13px}
+#ruleInputs{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:12px}#ruleInputs input{width:100%;box-sizing:border-box}
+#coinTest[hidden],.rule-card[hidden],.rule-card fieldset[hidden]{display:none}
+
+.studio-side{display:grid;align-content:start;gap:16px;min-width:0}
+
+.playlist-settings{padding:18px;border-top:1px solid #ded8cf;background:#fffaf2;color:#3c332b}.playlist-settings header{display:flex;gap:16px;justify-content:space-between;align-items:center;flex-wrap:wrap}.playlist-settings h3{font-size:16px}.playlist-settings p{font-size:12px;line-height:1.5;margin:8px 0;color:#6e6157}.playlist-settings ol{list-style:decimal;padding-left:24px;max-height:250px;overflow:auto}.playlist-settings li{display:flex;align-items:center;gap:6px;margin:6px 0;padding:8px;border-radius:8px;background:#f2ebe0}.playlist-settings li.selected{outline:1px solid #b28a52;background:#fbeac9}.playlist-settings li span{flex:1;min-width:0;overflow-wrap:anywhere;font-size:13px}.playlist-settings button,.playlist-upload{padding:8px 10px;border:1px solid #d3c6b6;background:white;color:#473a2d;border-radius:6px;font-size:12px;cursor:pointer}.playlist-settings button:disabled{opacity:.4;cursor:default}.playlist-actions{display:flex;flex-wrap:wrap;gap:6px}.playlist-upload input{display:block;max-width:200px;font-size:11px;margin-top:6px}.playlist-settings a{color:#86581c;text-decoration:underline}.playlist-now{font-weight:650}
+
+.track-settings{color:#3c332b}

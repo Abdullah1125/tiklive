@@ -1,0 +1,86 @@
+<!doctype html><html lang="tr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Sinyal Studio · Yayın stüdyosu</title><link rel="icon" href="/mark.svg"><link rel="stylesheet" href="/studio.css"></head>
+<body>
+<header class="top"><div class="top-inner">
+<a class="brand" href="/" aria-label="Sinyal Studio"><img src="/mark.svg" width="37" height="37" alt=""><span>Sinyal<span class="light">Studio</span></span></a>
+<nav aria-label="Ana menü"><button data-tab="studio" class="selected"><i data-icon="studio"></i>Stüdyo</button><button data-tab="games"><i data-icon="game"></i>Oyunlar</button><button data-tab="activity"><i data-icon="feed"></i>Etkinlikler</button></nav>
+<span class="local"><b class="dot"></b>Yerel sunucu</span></div></header>
+<main>
+<div class="pagehead"><div><h1 id="heading">Yayın stüdyosu</h1><p id="intro">Oyun sahneni yönet ve TikTok etkileşimlerini takip et.</p></div><button class="primary" id="connect"><i data-icon="wave"></i><span>TikTok LIVE’a bağlan</span></button></div>
+<section id="studio">
+<div class="grid">
+<article class="card stage-card"><header class="cardhead"><h2><i data-icon="monitor"></i>Sahne önizlemesi</h2><button class="subtle" id="choose">Oyun değiştir<i data-icon="menu"></i></button></header>
+
+<div class="stage" id="preview"><canvas id="scene" aria-label="Oyun sahnesi"></canvas>
+<section class="wedding-deck" aria-label="Düğün rehberi" hidden>
+  <div class="wedding-host">
+    <video class="wedding-cam" src="/dugun-kamerasi.webm" aria-label="Düğün kamerası" muted autoplay loop playsinline disablepictureinpicture></video>
+    <div class="wedding-join"><small>Sohbete yaz</small><span><b>katıl</b> → Kadın</span><span><b>Katıl</b> → Erkek</span></div>
+  </div>
+</section>
+
+<div class="wedding-callout" hidden></div><div class="stage-title"><strong class="arcade">Böceklerin<br>Düğünü</strong></div>
+<div class="stage-mode"><b class="dot"></b><span id="mode">TİKTOK BAĞLI DEĞİL</span></div>
+<div class="stage-cmd" id="stageCmd">Katılmak için <b>katıl</b> yaz</div>
+<button class="full" id="expand" aria-label="Önizlemeyi tam ekran aç"><i data-icon="expand"></i></button></div>
+
+<div class="track-settings" hidden><div><strong>Yayın müziği</strong><small>Henüz MP3 seçilmedi</small></div><button type="button" class="sound-toggle" aria-pressed="false" disabled>Önizlemede dinle</button><label>MP3 seç<input type="file" accept=".mp3,audio/mpeg" aria-label="Yayın için MP3 seç"></label></div>
+<section class="playlist-settings" aria-label="MP3 çalma listesi" hidden>
+<header><div><h3>MP3 çalma listesi</h3><p class="playlist-now">Mevcut tek MP3 düzeni etkin</p></div><label class="playlist-upload">MP3’leri ekle<input type="file" accept=".mp3,audio/mpeg" multiple aria-label="Çalma listesine MP3 ekle"></label></header>
+<p>Parçalar sırayla çalar; son parçadan sonra liste başa döner. Dosya eklemek veya sıralamak çalan parçayı kesmez.</p>
+<ol aria-label="Şarkı sırası"></ol>
+<div class="playlist-actions"><button type="button" data-playlist="previous">Önceki</button><button type="button" data-playlist="play">Listeden çal</button><button type="button" data-playlist="pause">Duraklat</button><button type="button" data-playlist="next">Sonraki</button><button type="button" data-playlist="legacy">Tek MP3’e dön</button></div>
+<p role="status" aria-live="polite"></p>
+<p>Yayın için <a href="/overlay" target="_blank" rel="noopener">müzikli oyun ekranını</a> kullan. OBS’de bu tarayıcı kaynağının sesini aç; ayrı müzik kaynağını kapat. Burada dinlemek için “Önizlemede dinle”yi aç. Yayında tek bir müzik kaynağını yakala.</p>
+</section>
+<div class="stats">
+<div><span class="stat-ico peach" data-icon="users"></span><span><small>Oyuncu</small><strong id="players">0</strong></span></div>
+<div><span class="stat-ico pink" data-icon="heart"></span><span><small>Beğeni</small><strong id="likes">0</strong></span></div>
+<div><span class="stat-ico lilac" data-icon="gift"></span><span><small>Hediye</small><strong id="gifts">0</strong></span></div>
+</div></article>
+<aside class="studio-side"><section class="card output"><header class="cardhead"><h2><i data-icon="link"></i>Yayın çıkışı</h2><a href="/overlay" target="_blank" rel="noopener" aria-label="Yayın ekranını aç"><i data-icon="external"></i></a></header><div class="output-body"><button class="secondary" id="liveWindow">LIVE Studio için oyun penceresini aç</button><p>LIVE Studio’da Pencere yakalama kaynağı olarak Düğün yayını penceresini seç. OBS tarayıcı kaynağının adresi:</p><div class="copy"><input id="url" aria-label="OBS kaynak adresi" readonly><button id="copy">Kopyala</button></div></div></section>
+<section class="card output"><header class="cardhead"><h2>Telefondan yayın</h2></header><div class="output-body">
+<button class="secondary" id="phoneShare">Telefon için oyun adresini aç</button>
+<p id="phoneInstructions" hidden>Telefonu Mac ile aynı Wi-Fi ağına bağla ve bu adresi telefonun tarayıcısında aç.<br><a id="phoneAddress"></a></p>
+</div></section>
+<section class="card"><header class="cardhead"><h2><i data-icon="feed"></i>Etkinlik akışı</h2><button class="subtle" id="allActivity">Tümünü gör<i data-icon="arrow"></i></button></header><ul id="recent" class="events"></ul></section>
+</aside>
+</div>
+<details id="sceneSettings" class="card rule-card">
+<summary>Halay ve kamera ayarları</summary>
+<div class="wedding-remote" aria-label="Düğün kumandası">
+<button type="button" data-direct="hype">🔥 Toplu coş · 20 sn</button>
+<button type="button" data-direct="wide">↗ Genel plan · 15 sn</button>
+<button type="button" data-direct="couple">♥ Gelin–damat dansı · 18 sn</button>
+<button type="button" data-direct="calm">☾ Sakinleş · 30 sn</button>
+</div><p id="directionFeedback" role="status">Bir komut seç; süresi bitince otomatik düzene döner.</p>
+<form id="sceneForm"><div class="scene-fields">
+<label>Halay düzeni<select id="formation"><option value="circle">Çember</option><option value="arc">Açık yay</option></select></label>
+<label>Hareket gücü<select id="danceEnergy"><option value="0.7">Sakin</option><option value="1">Canlı</option><option value="1.4">Coşkulu</option></select></label>
+<label>Kamera gezintisi<select id="cameraTours"><option value="on">Dansçılar ve düğün ortamı</option><option value="off">Genel görünüm ve hediyeler</option></select></label>
+</div><p>Değişiklikler yayına anında uygulanır. Şarkı kesilmez. Halay başı yakın çekimi 10 saniye sürer.</p>
+<button class="primary">Uygula</button><span id="sceneFeedback" role="status"></span></form></details>
+<details id="choreographySettings" class="card rule-card">
+<summary>Şarkı koreografisi</summary>
+<p>Parçanın istediğin bölümüne figür koy. Başlangıç ve bitişi dakika:saniye olarak yaz; müzik her döndüğünde aynı bölüm tekrar oynanır.</p>
+<p id="choreographyNotice">İlk coşma bölümleri ritim geçişlerinden çıkarılmış taslaktır; dinleyerek ince ayar yapabilirsin.</p>
+<form id="choreographyForm"><div id="musicSections"></div>
+<button type="button" class="secondary" id="addMusicSection">Bölüm ekle</button>
+<button class="primary">Koreografiyi kaydet</button><span id="choreographyFeedback" role="status"></span></form>
+</details>
+<details id="giftSettings" class="card rule-card">
+<summary>Hediye ve jeton ayarları</summary>
+<form id="ruleForm"><label>Eşleştirme<select id="ruleMode"><option value="named">Hediye adına göre</option><option value="coins">Jeton değerine göre</option></select></label>
+<fieldset id="coinFields" hidden><legend>En az kaç jeton?</legend>
+<p>Bir hediyenin tek adetlik değeri, ulaştığı en yüksek eşiği açar. Seri gönderimde aynı rol bir kez verilir.</p>
+<div id="ruleInputs"></div></fieldset>
+<button class="primary">Kaydet</button><span id="ruleFeedback" role="status"></span></form></details>
+</section>
+<section id="games" hidden><div class="library" id="library"></div></section>
+<section id="activity" hidden><article class="card"><header class="cardhead"><h2><i data-icon="feed"></i>Oturum etkinlikleri</h2><span class="muted" id="eventCount"></span></header><ul id="history" class="events"></ul></article></section>
+</main>
+<dialog id="connection"><form id="liveForm"><div class="dialog-head"><h2>TikTok LIVE bağlantısı</h2><button type="button" class="square" id="close" aria-label="Kapat"><i data-icon="close"></i></button></div><p>Canlı yayınını başlat, ardından TikTok hesabına bağlan.</p>
+<label for="handle">TikTok kullanıcı adı</label><input id="handle" placeholder="@kullaniciadi" maxlength="25" required>
+<label for="key">Euler Stream API anahtarı</label><input id="key" type="password" autocomplete="off" placeholder="API anahtarını gir">
+<small>Anahtar bu bağlantı süresince sunucu belleğinde tutulur. <a href="https://www.eulerstream.com/" target="_blank" rel="noopener">Euler Stream’i aç ↗</a></small>
+<p class="feedback" id="connectionStatus" aria-live="polite"></p><div class="dialog-actions"><button type="button" id="disconnect" class="secondary" hidden>Bağlantıyı kes</button><button class="primary" type="submit">Bağlan</button></div></form></dialog>
+<div id="toast" role="status" hidden></div><script type="module" src="/app.js"></script></body></html>

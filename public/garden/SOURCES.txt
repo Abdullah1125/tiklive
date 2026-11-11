@@ -1,0 +1,8 @@
+Broadleaf tree: Tree1_LOD1, BroadleafBark and Broadleaf_Desktop_Atlas from BabylonJS/Assets, repacked for this scene.
+https://github.com/BabylonJS/Assets/tree/master/meshes/Trees
+
+Photo textures and sky: Poly Haven, CC0. Local resized WebP versions.
+https://polyhaven.com/a/kloppenheim_06
+https://polyhaven.com/a/rock_face_03
+https://polyhaven.com/a/grass_path_2
+The pale paving texture uses a desaturated, lifted version of rock_face_03.

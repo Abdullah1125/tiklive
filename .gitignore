@@ -1,0 +1,24 @@
+.env
+.env.*
+!.env.example
+node_modules/
+.DS_Store
+muzik/*.mp3
+muzik/*.part
+hediye-ayarlari.json*
+sahne-ayarlari.json*
+
+# Kişisel kayıtlar, medya, bilgisayara özel ayarlar
+Kayitlar/
+muzik/*
+!muzik/.gitkeep
+public/dugun-kamerasi.webm
+public/wedding-portrait.jpg
+koreografi.json*
+calma-listesi.json*
+obs/Sinyal_Studio.json
+*.log
+*.pem
+*.key
+*.p12
+*.zip
