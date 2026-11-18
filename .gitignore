@@ -7,6 +7,7 @@ muzik/*.mp3
 muzik/*.part
 hediye-ayarlari.json*
 sahne-ayarlari.json*
+yaris-ayarlari.json*
 
 # Kişisel kayıtlar, medya, bilgisayara özel ayarlar
 Kayitlar/

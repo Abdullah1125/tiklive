@@ -1,8 +1,16 @@
 import {resolveWeddingGift, scheduleShot, avatarUrl, isWedding} from '../public/wedding.js';
+import {createRace, applyRaceEvent, nextRace} from './race.js';
+import {RACE_CAPACITY, defaultRaceSettings} from '../public/race-rules.js';
 const colors = ['#fa654e', '#77c9fb', '#f2cb60', '#a693ea', '#75d0a2', '#f68fc1'];
-export const gameNames = {rally: 'Sahil Rallisi', halay: 'Hamam Böcekleri Düğünü', blok: 'Blok Karakterler Düğünü'};
+export const gameNames = {rally: 'Sahil Rallisi', halay: 'Hamam Böcekleri Düğünü', blok: 'Blok Karakterler Düğünü', race: 'Şehir Yarışı'};
 
-export function createGame(game = 'rally') {
+export function createGame(game = 'rally', {raceSettings = defaultRaceSettings} = {}) {
+  const state = createBaseGame(game);
+  if (game === 'race') {state.capacity = RACE_CAPACITY; state.raceSettings = raceSettings; state.race = createRace(raceSettings);}
+  return state;
+}
+
+function createBaseGame(game) {
   return {game, players: [], queue: [], capacity:isWedding(game) ? 56 : 16, likes: 0, gifts: 0, round: 1,
     effect: null, giftMoment: null, roles: {}, shots: [], celebrations: [], chatMessages: [], leader: null, winner: null, nextRoundAt: 0, activity: [], serial: 0};
 }
@@ -30,6 +38,11 @@ function addPlayer(state, member, joinedAt) {
 
 export function nextRound(state) {
   state.round++;
+  if (state.game === 'race') {
+    nextRace(state);
+    note(state, 'system', 'Oyun', state.round + '. yarış başladı');
+    return;
+  }
   state.winner = null;
   state.nextRoundAt = 0;
   state.effect = null;
@@ -114,6 +127,7 @@ export function applyEvent(state, event, now = Date.now()) {
   }
   const player = state.players.find(p => p.id === id);
   const amount = Math.max(1, Math.min(100000, Math.trunc(Number(event.amount)) || 1));
+  if (state.game === 'race') return applyRaceEvent(state, event, now);
   if (type === 'giftCue') {
     if (isWedding(state.game)) weddingAction(state,event,now);
     return;

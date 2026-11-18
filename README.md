@@ -1,6 +1,6 @@
 # Sinyal Studio · TikTok LIVE Halay
 
-TikTok LIVE sohbeti ve hediyeleriyle çalışan, bilgisayarda yerel olarak açılan 3B **Hamam Böcekleri Düğünü**, aynı halayın bloklu karakterlerle oynanan sürümü **Blok Karakterler Düğünü** ve **Sahil Rallisi**. Yönetim paneli, yayın görüntüsü, MP3 çalma listesi ve Euler Stream bağlantısı birlikte gelir.
+TikTok LIVE sohbeti ve hediyeleriyle çalışan, bilgisayarda yerel olarak açılan 3B **Hamam Böcekleri Düğünü**, aynı halayın bloklu karakterlerle oynanan sürümü **Blok Karakterler Düğünü**, 3B **Şehir Yarışı** ve **Sahil Rallisi**. Yönetim paneli, yayın görüntüsü, MP3 çalma listesi ve Euler Stream bağlantısı birlikte gelir.
 
 **[Adım adım kurulum ve yayın rehberi →](docs/KURULUM.md)**
 
@@ -42,6 +42,18 @@ Her yayıncı kendi bilgisayarında kendi hesabı ve API anahtarıyla çalışı
 - Yedi halay figürü, mendilli halaybaşı, şarkı bölümleri ve yayıncı kumandası.
 - Birden fazla MP3 yükleme, sıralama, önceki/sonraki, duraklatma ve döngülü çalma listesi.
 - İsteğe bağlı sessiz, döngülü webcam görünümlü video kutusu.
+
+## Şehir Yarışı
+
+Oyunlar sekmesinden **Şehir Yarışı** seçilir; ayarlar stüdyodaki **Yarış ayarları** kartındadır.
+
+- **Katılım:** “katıl” yazmak, panelde seçilen hediyeyi (varsayılan Gül) göndermek ya da ikisi birden. En az biri işaretli olmalıdır. Eşleştirilmiş bir yarış hediyesi gönderen izleyici de otomatik katılır.
+- **Mod:** turlu (varsayılan 3 tur, ilk bitiren kazanır) veya sınırsız (yarış bitmez; sırada bekleyen, 2 dakika hareketsiz kalanın yerine geçer).
+- **Hız:** beğeni ve yorumlar arabayı yavaş yavaş hızlandırır, etkileşim durunca hız yavaş yavaş normale döner. Yorumlar kişi başına 2 saniyede bir sayılır; `gaz` yazmak biraz daha fazla hız verir.
+- **Hediye eylemleri:** Gaz, Turbo, Nitro, Kamerayı üstüne çek, Kalkan, Tamir; engeller: Yağ ve Çivi (arkaya), Koni ve Roket (öndekine), Barikat (lidere), Yıldırım (öndeki herkese). Kalkan bir engeli boşa çıkarır.
+- **Kamera:** yüksekten lider takibi, en çok hediye atanı takip, lideri yakından takip veya kuşbakışı. Kamera hediyesi her modda birkaç saniyelik yakın çekim açar.
+
+Ayarlar `yaris-ayarlari.json` dosyasına kaydedilir ve Git tarafından dışlanır.
 
 ## TikTok hediye eşleştirmeleri
 

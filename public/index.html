@@ -77,6 +77,27 @@
 <label class="guide-choice"><input id="giftGuide" type="checkbox"> Oyun görüntüsünde ek hediye rehberi göster</label>
 <p>Ek rehber varsayılan olarak kapalıdır; TikTok’un kendi hediye menüsünü kullanabilirsin. Buradaki ayar TikTok’un yerel menüsünü değiştirmez.</p>
 <button class="primary">Eşleştirmeleri kaydet</button><span id="ruleFeedback" role="status"></span></form></details>
+<details id="raceSettings" class="card rule-card" open hidden>
+<summary>Yarış ayarları</summary>
+<form id="raceForm">
+<fieldset><legend>Kim yarışa katılabilir? (en az birini işaretle)</legend>
+<label class="guide-choice"><input id="raceJoinChat" type="checkbox"> Sohbete “katıl” yazan</label>
+<label class="guide-choice"><input id="raceJoinGift" type="checkbox"> Şu hediyeyi gönderen:</label>
+<select id="raceJoinGiftSelect" aria-label="Katılım hediyesi"></select>
+</fieldset>
+<div class="scene-fields">
+<label>Yarış modu<select id="raceMode"><option value="laps">Turlu: ilk bitiren kazanır</option><option value="endless">Sınırsız: yarış hiç bitmez</option></select></label>
+<label>Tur sayısı<input id="raceLaps" type="number" min="1" max="20" step="1"></label>
+<label>Kamera<select id="raceCamera"></select></label>
+</div>
+<p>Beğeni ve yorumlar arabayı kendiliğinden, yavaş yavaş hızlandırır. Aşağıda her hediyenin yarışta ne yapacağını seç; boş bırakılan eylem kapalıdır. Kamera hediyesi her modda kısa bir yakın çekim açar.</p>
+<button type="button" class="secondary" id="raceLoadGifts">TikTok hediyelerini getir</button>
+<label>Hediye ara<input id="raceGiftSearch" type="search" placeholder="Hediye adı veya kimliği"></label>
+<div id="raceAssignments"></div>
+<label class="guide-choice"><input id="raceGuide" type="checkbox"> Oyun ekranında hediye rehberini göster</label>
+<button class="primary">Yarış ayarlarını kaydet</button>
+<button type="button" class="secondary" id="raceRestart">Yarışı yeniden başlat</button>
+<span id="raceFeedback" role="status"></span></form></details>
 </section>
 <section id="games" hidden><div class="library" id="library"></div></section>
 <section id="activity" hidden><article class="card"><header class="cardhead"><h2><i data-icon="feed"></i>Oturum etkinlikleri</h2><span class="muted" id="eventCount"></span></header><ul id="history" class="events"></ul></article></section>

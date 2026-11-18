@@ -64,6 +64,20 @@ export function mountScene(initialCanvas) {
         host.dataset.renderer = '2d';
         instance = mountFlat(canvas);
       }
+    } else if (wanted === 'race') {
+      try {
+        const {createRace} = await import('./race-scene.js');
+        if (ticket !== generation) return;
+        instance = createRace(canvas);
+        host.dataset.renderer = '3d';
+      } catch (error) {
+        if (ticket !== generation) return;
+        console.warn('3B yarış sahnesi açılamadı.', error);
+        reportError(error);
+        replaceCanvas();
+        host.dataset.renderer = '2d';
+        instance = mountFlat(canvas);
+      }
     } else {
       host.dataset.renderer = '2d';
       instance = mountFlat(canvas);

@@ -2,7 +2,7 @@ import {execFileSync} from 'node:child_process';
 import {readFileSync,existsSync} from 'node:fs';
 const paths=execFileSync('git',['ls-files','-z'],{encoding:'utf8'}).split('\0').filter(Boolean);
 if(!paths.length){console.error('Önce yayınlanacak dosyaları git add ile seçin.');process.exit(1);}
-const forbidden=/^(?:\.env(?:\..*)?$|Kayitlar\/|muzik\/(?!\.gitkeep$)|public\/(?:dugun-kamerasi\.webm|wedding-portrait\.jpg)$|(?:koreografi|calma-listesi|hediye-ayarlari|sahne-ayarlari)\.json|obs\/Sinyal_Studio\.json$)/;
+const forbidden=/^(?:\.env(?:\..*)?$|Kayitlar\/|muzik\/(?!\.gitkeep$)|public\/(?:dugun-kamerasi\.webm|wedding-portrait\.jpg)$|(?:koreografi|calma-listesi|hediye-ayarlari|sahne-ayarlari|yaris-ayarlari)\.json|obs\/Sinyal_Studio\.json$)/;
 const secrets=[];
 if(existsSync('.env'))for(const line of readFileSync('.env','utf8').split(/\r?\n/)){
  const match=/^\s*([A-Z_]*(?:KEY|TOKEN|SECRET|PASSWORD)[A-Z_]*)\s*=\s*(.*?)\s*$/.exec(line);

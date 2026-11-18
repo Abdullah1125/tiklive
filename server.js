@@ -9,6 +9,8 @@ import {createPlaylist} from './src/playlist.js';
 import {openLive,loadGiftCatalog} from './src/live.js';
 import {phoneView} from './src/phone-view.js';
 import {emptyChoreography,checkChoreography,makeDirection} from './public/choreography.js';
+import {defaultRaceSettings,checkRaceSettings,raceGiftFor} from './public/race-rules.js';
+import {tickRace} from './src/race.js';
 
 try{await checkInstallation();}catch(error){console.error(error.message);process.exit(1);}
 const port = Number(process.env.PORT || 4317);
@@ -33,7 +35,11 @@ const choreographyFile=new URL('./koreografi.json',import.meta.url);
 let choreography=emptyChoreography;
 try{choreography=checkChoreography(JSON.parse(await readFile(choreographyFile,'utf8')));}
 catch(error){if(error.code!=='ENOENT')throw error;}
-function newSession(game) {return {...createGame(game),giftRules,sceneSettings,choreography,direction:null};}
+const raceFile=new URL('./yaris-ayarlari.json',import.meta.url);
+let raceSettings=defaultRaceSettings;
+try{raceSettings=checkRaceSettings(JSON.parse(await readFile(raceFile,'utf8')));}
+catch(error){if(error.code!=='ENOENT')throw error;}
+function newSession(game) {return {...createGame(game,{raceSettings}),giftRules,sceneSettings,choreography,direction:null};}
 let session = newSession('halay');
 const idleLink = {status:'idle', detail:'TikTok bağlantısı bekleniyor', handle:''};
 let link = idleLink;
@@ -47,7 +53,7 @@ if (process.env.SINYAL_RESUME_FILE) {
   }
   session = newSession(saved.game);
   for (const field of Object.keys(session)) {
-    if (!['giftRules','sceneSettings','choreography'].includes(field) && Object.hasOwn(saved, field)) session[field] = saved[field];
+    if (!['giftRules','sceneSettings','choreography','raceSettings'].includes(field) && Object.hasOwn(saved, field)) session[field] = saved[field];
   }
   link = {...idleLink, handle:savedHandle};
 }
@@ -67,10 +73,10 @@ const effectiveMusicVersion=()=>{const p=playlist.snapshot();return p.active?p.t
 const clients = new Set();
 const mobileClients = new WeakSet();
 const phone = phoneView(port, (req,res) => handleRequest(req,res,true));
-const snapshot = () => ({...session, phoneUrl:phone.url, mode:link.status === 'idle' ? 'idle' : 'live', link, musicVersion:effectiveMusicVersion(), playlist:playlist.snapshot(), configured: Boolean(process.env.EULER_API_KEY)});
+const snapshot = () => ({...session, raceSettings, phoneUrl:phone.url, mode:link.status === 'idle' ? 'idle' : 'live', link, musicVersion:effectiveMusicVersion(), playlist:playlist.snapshot(), configured: Boolean(process.env.EULER_API_KEY)});
 function sceneSnapshot() {
-  const {game,players,likes,leader,roles,shots,celebrations,chatMessages,effect,giftMoment,winner,round} = session;
-  return {game,players,likes,leader,roles,shots,celebrations,chatMessages,effect,giftMoment,winner,round,giftRules,sceneSettings,choreography,direction:session.direction,musicVersion:effectiveMusicVersion(),playlist:playlist.snapshot(),link:{status:link.status}};
+  const {game,players,likes,leader,roles,shots,celebrations,chatMessages,effect,giftMoment,winner,round,race} = session;
+  return {game,players,likes,leader,roles,shots,celebrations,chatMessages,effect,giftMoment,winner,round,race,raceSettings,queueSize:session.queue.length,giftRules,sceneSettings,choreography,direction:session.direction,musicVersion:effectiveMusicVersion(),playlist:playlist.snapshot(),link:{status:link.status}};
 }
 function send(response) {
   if (response.writableLength > 512000) return response.destroy();
@@ -80,6 +86,8 @@ function update() {
   if (broadcastTimer) return;
   broadcastTimer = setTimeout(() => {broadcastTimer = null; clients.forEach(send);}, 60);
 }
+// The race moves on the server so the studio, OBS and phone all show the same race.
+setInterval(() => {if (session.game === 'race' && tickRace(session, Date.now())) update();}, 200).unref();
 setInterval(() => {
   if (session.nextRoundAt && Date.now() >= session.nextRoundAt) {nextRound(session); update();}
 }, 250).unref();
@@ -118,6 +126,16 @@ async function command(body) {
       if (typeof body.enabled !== 'boolean') fail('Geçersiz paylaşım ayarı.');
       try { await phone.setEnabled(body.enabled); } catch (error) { fail(error.message); }
       break;
+    case 'raceSettings': {
+      let next;
+      try {next=checkRaceSettings(body.settings);} catch(error) {fail(error.message);}
+      const temp=new URL(raceFile.href+'.tmp');
+      writeFileSync(temp,JSON.stringify(next,null,2));renameSync(temp,raceFile);
+      const restart=raceSettings.mode!==next.mode || raceSettings.laps!==next.laps;
+      raceSettings=next;
+      if(session.game==='race'){session.raceSettings=next;if(restart)nextRound(session);}
+      break;
+    }
     case 'giftRules': {
       let next;
       try {next=checkGiftRules(body.rules);} catch(error) {fail(error.message);}
@@ -144,7 +162,7 @@ async function command(body) {
       stopLive?.();catalogKey=key;
       if (link.handle !== handle) session = newSession(session.game);
       let newBroadcast = false;
-      stopLive = openLive({handle, key, waitForLive:handle === savedHandle, catalog:refreshGiftCatalog, canCue:event=>!!resolveWeddingGift(giftRules,event), onStatus(status, detail) {
+      stopLive = openLive({handle, key, waitForLive:handle === savedHandle, catalog:refreshGiftCatalog, canCue:event=>session.game==='race'?!!raceGiftFor(raceSettings,event):!!resolveWeddingGift(giftRules,event), onStatus(status, detail) {
         if (link.status !== status || link.detail !== detail || handle !== link.handle) {
           if (status === 'waiting') newBroadcast = true;
           if (status === 'live' && newBroadcast) {
@@ -169,7 +187,7 @@ async function command(body) {
 }
 const files = new Map([
   ['/', ['index.html','text/html']], ['/overlay',['overlay.html','text/html']],
-  ...['gift-settings.js','playlist.js','app.js','scene.js','overlay.js','icons.js','shared.js','halay.js','square.js','garden.js','dancers.js','halay-audio.js','music-motion.js','choreography.js','stage.js','wedding.js','wedding-view.js'].map(f => ['/'+f,[f,'text/javascript']]),
+  ...['gift-settings.js','playlist.js','app.js','scene.js','overlay.js','icons.js','shared.js','halay.js','square.js','garden.js','dancers.js','halay-audio.js','music-motion.js','choreography.js','stage.js','wedding.js','wedding-view.js','race-rules.js','race-scene.js','race-settings.js'].map(f => ['/'+f,[f,'text/javascript']]),
   ...gifts.map(({key}) => ['/gift-icons/'+key+'.webp',['gift-icons/'+key+'.webp','image/webp']]),
   ...['leaves','bark','garden-sky','limestone','limestone-normal','travertine','lawn'].map(name => ['/garden/'+name+'.webp',['garden/'+name+'.webp','image/webp']]),
   ['/garden/broadleaf.bin',['garden/broadleaf.bin','application/octet-stream']],

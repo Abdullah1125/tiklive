@@ -1,4 +1,5 @@
 import {setupGiftSettings} from './gift-settings.js';
+import {setupRaceSettings} from './race-settings.js';
 import {setupPlaylist} from './playlist.js';
 import {setupWedding} from './wedding-view.js';
 import {figures,commandNames,checkChoreography} from './choreography.js';
@@ -13,6 +14,7 @@ const dialog = $('connection');
 const weddingView=setupWedding();
 const playlistView=setupPlaylist();
 const giftSettingsView=setupGiftSettings(control);
+const raceSettingsView=setupRaceSettings(control);
 const clock = new Intl.DateTimeFormat('tr-TR', {hour:'2-digit',minute:'2-digit',second:'2-digit'});
 const format = new Intl.NumberFormat('tr-TR');
 let current;
@@ -106,6 +108,7 @@ function render(s) {
     $('cameraTours').value=settings.tours?'on':'off';
   }
   giftSettingsView(s);
+  raceSettingsView(s);
   document.querySelector('.local').lastChild.textContent = 'Yerel sunucu';
   stageText(s, document.querySelector('.arcade'), $('mode'), $('stageCmd'));
   $('players').textContent = format.format(s.players.length+Object.keys(s.roles||{}).length);
