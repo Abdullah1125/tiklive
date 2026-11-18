@@ -1,6 +1,6 @@
 # Sinyal Studio · TikTok LIVE Halay
 
-TikTok LIVE sohbeti ve hediyeleriyle çalışan, bilgisayarda yerel olarak açılan 3B **Hamam Böcekleri Düğünü** ve **Sahil Rallisi**. Yönetim paneli, yayın görüntüsü, MP3 çalma listesi ve Euler Stream bağlantısı birlikte gelir.
+TikTok LIVE sohbeti ve hediyeleriyle çalışan, bilgisayarda yerel olarak açılan 3B **Blok Karakterler Düğünü** ve **Sahil Rallisi**. Yönetim paneli, yayın görüntüsü, MP3 çalma listesi ve Euler Stream bağlantısı birlikte gelir.
 
 **[Adım adım kurulum ve yayın rehberi →](docs/KURULUM.md)**
 
@@ -34,7 +34,7 @@ Her yayıncı kendi bilgisayarında kendi hesabı ve API anahtarıyla çalışı
 
 ## Neler var?
 
-- `katıl` → kadın, `Katıl` → erkek görünümüyle katılım; isim ve varsa profil fotoğrafı baloncuğu.
+- Bloklu, piksel yüzlü karakterler (Steve, Alex, zombi, creeper, iskelet, köylü, enderman tarzı). `katıl` → kadın, `Katıl` → erkek görünümüyle katılım; isim ve varsa profil fotoğrafı baloncuğu.
 - İki sırada 56 dansçı, dört özel rol; yoğunlukta bekleme sırası.
 - Gelin, damat, halaybaşı, davulcu, zurnacı; altın, konfeti ve para efektleri.
 - Giriş yürüyüşü, dönen yakın çekimler, genel plan ve hediye öncelikli kamera sırası.

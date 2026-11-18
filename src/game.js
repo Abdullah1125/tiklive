@@ -1,6 +1,6 @@
 import {resolveWeddingGift, scheduleShot, avatarUrl} from '../public/wedding.js';
 const colors = ['#fa654e', '#77c9fb', '#f2cb60', '#a693ea', '#75d0a2', '#f68fc1'];
-export const gameNames = {rally: 'Sahil Rallisi', halay: 'Hamam Böcekleri Düğünü'};
+export const gameNames = {rally: 'Sahil Rallisi', halay: 'Blok Karakterler Düğünü'};
 
 export function createGame(game = 'rally') {
   return {game, players: [], queue: [], capacity:game === 'halay' ? 56 : 16, likes: 0, gifts: 0, round: 1,
