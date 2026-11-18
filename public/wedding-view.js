@@ -1,4 +1,4 @@
-import {gifts,onAir,defaultGiftRules,selectedGifts,walkDuration} from './wedding.js';
+import {gifts,onAir,defaultGiftRules,selectedGifts,walkDuration,isWedding} from './wedding.js';
 import {attachMusicMotion} from './music-motion.js';
 
 const byKey=new Map(gifts.map(g=>[g.key,g]));
@@ -134,7 +134,7 @@ export function setupWedding() {
       const p=s.playlist;status.textContent=p?.active?(p.playing?'Çalma listesi · Sırayla ve döngüde':'Çalma listesi · Duraklatıldı'):s.musicVersion?'Yerel MP3 · Döngü açık':'Henüz MP3 seçilmedi';
     }
     state=s;
-    const show=s.game==='halay';
+    const show=isWedding(s.game);
     if(show && guide)updateGuide(s.giftRules || defaultGiftRules);
     if(active!==show){
       if(show)cameraClip.play().catch(()=>{});

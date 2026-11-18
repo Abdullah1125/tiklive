@@ -1,3 +1,4 @@
+import {isWedding} from './wedding.js';
 export function setupPlaylist(){
   const host=document.querySelector('.playlist-settings');
   let current,key;
@@ -32,7 +33,7 @@ export function setupPlaylist(){
   };
   function button(text,label,action,disabled=false){const b=document.createElement('button');b.type='button';b.textContent=text;b.ariaLabel=label;b.disabled=disabled;b.onclick=action;return b;}
   function update(s){
-    host.hidden=s.game!=='halay';current=s.playlist||{tracks:[]};
+    host.hidden=!isWedding(s.game);current=s.playlist||{tracks:[]};
     const version=JSON.stringify(current);if(key===version)return;key=version;
     host.querySelector('.playlist-now').textContent=current.active?`${current.playing?'Çalıyor':'Duraklatıldı'}: ${current.tracks.find(t=>t.id===current.current)?.title||''}`:'Mevcut tek MP3 düzeni etkin';
     list.replaceChildren();

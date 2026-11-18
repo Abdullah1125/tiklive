@@ -310,3 +310,11 @@ test('seride fiyat ilk veya son pakette gelirse rol yalnızca bir kez verilir', 
     assert.equal(state.shots.length,1);assert.equal(state.roles.groom.name,'Efe');
   }
 });
+
+test('blok karakterler düğünü, halay ile aynı kurallarla çalışır', () => {
+  const blok = createGame('blok');
+  assert.equal(blok.capacity, 56);
+  chat(blok, 'a', 'katıl');chat(blok, 'b', 'Katıl');chat(blok, 'c', 'halay 🎉');
+  assert.deepEqual(blok.players.map(p => [p.id, p.gender]), [['a','female'],['b','male'],['c',undefined]]);
+  assert.ok(blok.nextRoundAt > 0);
+});

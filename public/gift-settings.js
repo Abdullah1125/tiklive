@@ -1,4 +1,4 @@
-import {gifts,defaultGiftRules,selectedGifts,checkGiftRules} from './wedding.js';
+import {gifts,defaultGiftRules,selectedGifts,checkGiftRules,isWedding} from './wedding.js';
 export function setupGiftSettings(control){
   const host=document.querySelector('#giftSettings'),form=host.querySelector('form'),rows=host.querySelector('#giftAssignments'),feedback=host.querySelector('#ruleFeedback');
   const search=host.querySelector('#giftSearch'),refresh=host.querySelector('#loadGiftCatalog'),guide=host.querySelector('#giftGuide');
@@ -36,7 +36,7 @@ export function setupGiftSettings(control){
     }catch(e){feedback.textContent=e.message;}
   };
   return s=>{
-    host.hidden=s.game!=='halay';const next=s.giftRules||defaultGiftRules,key=JSON.stringify(next);
+    host.hidden=!isWedding(s.game);const next=s.giftRules||defaultGiftRules,key=JSON.stringify(next);
     if(version===key)return;version=key;rules=next;
     const chosen=selectedGifts(rules);for(const g of chosen)catalog.set(g.ids[0],{id:g.ids[0],name:g.name});
     options();for(const [key,select] of selections)select.value=chosen.find(g=>g.key===key)?.ids[0]||'';

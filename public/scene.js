@@ -1,4 +1,4 @@
-import {onAir} from './wedding.js';
+import {onAir,isWedding} from './wedding.js';
 // Draw at the game's native pixel resolution and let the browser scale the frame.
 const TAU = Math.PI * 2
 const SHOW_CARS = ['#19d7ce', '#f5ab38', '#f05461']
@@ -480,18 +480,18 @@ export function mountScene(canvas) {
     if(canvas.width!==w || canvas.height!==h || renderedGame!==state.game) {
       canvas.width=backdrop.width=w
       canvas.height=backdrop.height=h
-      if(state.game==='halay') festivalBackdrop(bg,w,h)
+      if(isWedding(state.game)) festivalBackdrop(bg,w,h)
       else rallyBackdrop(bg,w,h)
       renderedGame=state.game
     }
-    const shot=state.game==='halay'?onAir(state):null
-    const effect=state.game==='halay'?(shot && ['money','confetti'].includes(shot.tier)?{type:'gift',at:shot.at}:null):state.effect
+    const shot=isWedding(state.game)?onAir(state):null
+    const effect=isWedding(state.game)?(shot && ['money','confetti'].includes(shot.tier)?{type:'gift',at:shot.at}:null):state.effect
     const activeEffect=effect && Date.now()-effect.at<1600
-    const tempo=state.game==='halay' ? 1+Math.min(1.5,state.likes/120) : 1
+    const tempo=isWedding(state.game) ? 1+Math.min(1.5,state.likes/120) : 1
     gameTime+=elapsed*tempo
     const time=reduced.matches?250:gameTime
     ctx.drawImage(backdrop,0,0)
-    if(state.game==='halay') chat.place(festival(ctx,w,h,state,time,shot,chat.tick(Date.now())))
+    if(isWedding(state.game)) chat.place(festival(ctx,w,h,state,time,shot,chat.tick(Date.now())))
     else rally(ctx,w,h,state,time,activeEffect)
     if(!reduced.matches) celebration(ctx,w,h,effect)
   }
@@ -499,7 +499,7 @@ export function mountScene(canvas) {
   return {
     update(next) {
       state={...state,...next}
-      if(state.game==='halay'){
+      if(isWedding(state.game)){
         chat??=mountWeddingChat(canvas.parentElement)
         chat.update(state.chatMessages)
       }

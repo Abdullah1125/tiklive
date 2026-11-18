@@ -86,8 +86,8 @@ function addRocks(parent,random,terraceScale){
 
 // Merge each seated costume once. Weld subpixel details so a bank of spectators
 // doesn't incur a draw call for every button, finger or eyelash.
-function spectatorGeometry(style){
-  const rig=makeDancer(style,'guest');rig.seat();
+function spectatorGeometry(style,look){
+  const rig=makeDancer(style,'guest',look);rig.seat();
   const xyz=[],color=[],indices=[],lookup=new Map(),v=new T.Vector3();
   rig.group.traverseVisible(part=>{
     if(!part.isMesh)return;
@@ -115,7 +115,7 @@ function spectatorGeometry(style){
   geometry.setIndex(indices);geometry.computeVertexNormals();return geometry;
 }
 
-function seating(parent,clock,terraceScale){
+function seating(parent,clock,terraceScale,look){
   const white=new T.MeshStandardMaterial({color:0xfff9e9,roughness:.4}),cushion=new T.MeshStandardMaterial({color:0xf5e6de,roughness:.92});
   const rose=new T.MeshStandardMaterial({color:0xbd7480,roughness:.52});
   const chair=[],costumes=Array.from({length:5},()=>[]);
@@ -158,7 +158,7 @@ function seating(parent,clock,terraceScale){
       transformed.z+=cos(gardenTime*2.06+phase)*.012*above;
     `);
   };
-  [0,1,3,5,4].forEach((style,i)=>instance(parent,spectatorGeometry(style),fabric,costumes[i]));
+  [0,1,3,5,4].forEach((style,i)=>instance(parent,spectatorGeometry(style,look),fabric,costumes[i]));
 }
 
 // Four inward-facing PA cabinets share geometry and materials.
@@ -226,7 +226,7 @@ function speakerStands(parent, terraceScale) {
   };
 }
 
-export function buildGarden(scene,random,terraceScale){
+export function buildGarden(scene,random,terraceScale,look){
   const garden=new T.Group();scene.add(garden);
   const sky=texture('garden-sky.webp');sky.mapping=T.EquirectangularReflectionMapping;
   scene.background=sky;scene.environment=sky;scene.environmentIntensity=.35;
@@ -234,7 +234,7 @@ export function buildGarden(scene,random,terraceScale){
   const lawn=new T.Mesh(new T.PlaneGeometry(150,150),new T.MeshStandardMaterial({map:lawnMap,color:0xc0d9a7,roughness:1}));
   lawn.rotation.x=-Math.PI/2;lawn.position.y=-.265;lawn.receiveShadow=true;garden.add(lawn);
   const clock={value:0};garden.userData.clock=clock;
-  addTrees(garden);addRocks(garden,random,terraceScale);seating(garden,clock,terraceScale);
+  addTrees(garden);addRocks(garden,random,terraceScale);seating(garden,clock,terraceScale,look);
   garden.userData.pulseSpeakers=speakerStands(garden,terraceScale);
   return garden;
 }

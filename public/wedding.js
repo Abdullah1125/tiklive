@@ -1,3 +1,7 @@
+// Both wedding games share every rule; only the 3B characters differ.
+export const weddingGames=['halay','blok'];
+export const isWedding=game=>weddingGames.includes(game);
+
 export function avatarUrl(value) {
   if (typeof value !== 'string' || value.length > 4096) return '';
   try {

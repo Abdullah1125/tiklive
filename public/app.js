@@ -2,7 +2,7 @@ import {setupGiftSettings} from './gift-settings.js';
 import {setupPlaylist} from './playlist.js';
 import {setupWedding} from './wedding-view.js';
 import {figures,commandNames,checkChoreography} from './choreography.js';
-import {defaultSceneSettings,checkSceneSettings} from './wedding.js';
+import {defaultSceneSettings,checkSceneSettings,isWedding} from './wedding.js';
 import {fillIcons, icon} from './icons.js';
 import {mountScene} from './stage.js';
 import {games, stageText, subscribe} from './shared.js';
@@ -87,7 +87,7 @@ function render(s) {
   scene.update(s);
   weddingView(s);
   playlistView(s);
-  $('choreographySettings').hidden=s.game!=='halay';
+  $('choreographySettings').hidden=!isWedding(s.game);
   const choreoKey=JSON.stringify([s.choreography,s.musicVersion]);
   if(choreoKey!==choreographyVersion){
     choreographyVersion=choreoKey;
@@ -96,7 +96,7 @@ function render(s) {
     for(const section of matched?s.choreography.sections:[])addMusicSection(section);
     $('choreographyNotice').textContent=matched?'Bölümler bu MP3 için kayıtlı. İlk ritim işaretlerini dinleyerek ince ayar yapabilirsin.':'Bu MP3 için henüz bölüm yok. Dinleyip başlangıç ve bitiş zamanlarını ekle.';
   }
-  $('sceneSettings').hidden=s.game!=='halay';
+  $('sceneSettings').hidden=!isWedding(s.game);
   const settings=s.sceneSettings || defaultSceneSettings;
   const sceneVersion=JSON.stringify(settings);
   if(sceneVersion!==settingsVersion){

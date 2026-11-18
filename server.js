@@ -3,7 +3,7 @@ import {writeFileSync,renameSync} from 'node:fs';
 import {createServer} from 'node:http';
 import {readFile} from 'node:fs/promises';
 import {createGame, applyEvent, nextRound, note, gameNames} from './src/game.js';
-import {gifts, resolveWeddingGift, defaultGiftRules, checkGiftRules, scheduleShot, defaultSceneSettings, checkSceneSettings} from './public/wedding.js';
+import {gifts, resolveWeddingGift, defaultGiftRules, checkGiftRules, scheduleShot, defaultSceneSettings, checkSceneSettings, isWedding} from './public/wedding.js';
 import {trackVersion,saveTrack,serveTrack} from './src/music.js';
 import {createPlaylist} from './src/playlist.js';
 import {openLive,loadGiftCatalog} from './src/live.js';
@@ -110,7 +110,7 @@ async function command(body) {
     }
     case 'showLeader': {
       const leader = session.players.find(player => player.id === session.leader);
-      if (session.game !== 'halay' || !leader) fail('Şu anda halay başı yok.');
+      if (!isWedding(session.game) || !leader) fail('Şu anda halay başı yok.');
       scheduleShot(session, {tier:'leader', playerId:leader.id, name:leader.name, duration:10000}, Date.now());
       break;
     }

@@ -287,10 +287,10 @@ function gardenLights(g,lights) {
     for(const side of [-1,1]) g.beam([side*span,0,z+side*span*.06],point(side*span),.085,.055,'#806c4e');
   }
 }
-export function buildSquare(scene) {
+export function buildSquare(scene,look='bug') {
   const random=randomSequence(52961);
   const ground=paletteGeometry(),garden=paletteGeometry(),lights=paletteGeometry();
-  const grounds=buildGarden(scene,random,terraceScale);
+  const grounds=buildGarden(scene,random,terraceScale,look);
   danceFloor(ground,random);
   const floorMesh=ground.finish(scene,'Taş döşeli düğün terası',false);
   terraceMaterial(floorMesh);

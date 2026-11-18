@@ -149,3 +149,30 @@ test('eller çoğu zaman belde kalır; ortak kaldırma vuruşlarında yumuşak y
     assert.ok(acceleration<.001);
   }
 });
+
+test('blok karakterler: etek ve ayakkabı zemine girmez, uzuv boyları sabit kalır',()=>{
+  const point=new Vector3();
+  for(const [style,role] of [[0,'bride'],[1,'groom'],[0,'drummer'],[0,'piper'],[0,'guest'],[3,'guest'],[6,'guest'],[9,'guest']]){
+    const actor=makeDancer(style,role,'block');
+    assert.equal(actor.group.getObjectByName('bodice').children.some(c=>c.name==='skirt'),['bride'].includes(role)||[0,3,6].includes(style%8)&&role==='guest');
+    for(let i=0;i<64;i++){
+      actor.pose({phase:i*Math.PI/8,energy:1.15,moves:{squat:1,knee:.5},greeting:.6,entryStyle:1});
+      actor.group.updateMatrixWorld(true);
+      // Under a skirt the hidden shin is shortened at the hem, as in the original wedding.
+      if(!actor.group.getObjectByName('skirt'))for(const sign of [-1,1]){
+        assert.ok(Math.abs(actor.group.getObjectByName('thigh:'+sign).scale.y-.497)<1e-5);
+        assert.ok(Math.abs(actor.group.getObjectByName('shin:'+sign).scale.y-.475)<1e-5);
+      }
+      for(const name of ['skirt','boot:-1','boot:1']){
+        const mesh=actor.group.getObjectByName(name);
+        if(!mesh?.visible)continue;
+        const v=mesh.geometry.attributes.position;
+        for(let j=0;j<v.count;j++){
+          point.fromBufferAttribute(v,j).applyMatrix4(mesh.matrixWorld);
+          assert.ok(point.y>=.004,role+' '+style+' '+name+' zemine girdi: '+point.y);
+        }
+      }
+    }
+    actor.dispose();
+  }
+});

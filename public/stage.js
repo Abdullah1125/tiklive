@@ -1,4 +1,4 @@
-import {onAir} from './wedding.js';
+import {onAir,isWedding} from './wedding.js';
 import {mountScene as mountFlat} from './scene.js';
 
 export function halayTempo(state, now = Date.now()) {
@@ -50,11 +50,11 @@ export function mountScene(initialCanvas) {
     }
     replaceCanvas();
     host.dataset.game = wanted;
-    if (wanted === 'halay') {
+    if (isWedding(wanted)) {
       try {
         const {createHalay} = await import('./halay.js');
         if (ticket !== generation) return;
-        instance = createHalay(canvas);
+        instance = createHalay(canvas, wanted === 'blok' ? 'block' : 'bug');
         host.dataset.renderer = '3d';
       } catch (error) {
         if (ticket !== generation) return;

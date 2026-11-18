@@ -125,7 +125,7 @@ function footContacts(actor){
   };
 }
 
-export function createHalay(canvas) {
+export function createHalay(canvas,characters='bug') {
   const host=canvas.parentElement;
   const renderer=new T.WebGLRenderer({canvas,alpha:true,antialias:true,powerPreference:'high-performance'});
   renderer.setPixelRatio(Math.min(devicePixelRatio||1,1.5));
@@ -142,7 +142,7 @@ export function createHalay(canvas) {
   sun.shadow.normalBias=.025; sun.shadow.bias=-.00035; scene.add(sun);
   const rim=new T.DirectionalLight(0xffd4b4,.70);
   rim.position.set(4,5,-6);scene.add(rim);
-  const animateSet=buildSquare(scene);
+  const animateSet=buildSquare(scene,characters);
   const camera=new T.PerspectiveCamera(35,1,.1,140);
   const eye=new T.Vector3(), goal=new T.Vector3();
   const cameraTarget=new T.Vector3();
@@ -170,7 +170,7 @@ export function createHalay(canvas) {
   }
   function wardrobe(style) {
     if (groups.has(style)) return groups.get(style);
-    const model=makeDancer(style,'guest'), pieces=[];
+    const model=makeDancer(style,'guest',characters), pieces=[];
     model.group.traverse(part=>{
       if (!part.isMesh) return;
       const batch=new T.InstancedMesh(part.geometry,part.material,innerCount+outerCount);
@@ -219,7 +219,7 @@ export function createHalay(canvas) {
       let actor=cast.get(slot);
       const gender=person?.gender==='female' || person?.gender==='male' ? person.gender : null;
       if (!actor) {
-        actor=role==='guest'?{...dress(gender),group:new T.Object3D()}:makeDancer(index,role);
+        actor=role==='guest'?{...dress(gender),group:new T.Object3D()}:makeDancer(index,role,characters);
         if(actor.rig)actor.plantFoot=footContacts(actor);
         cast.set(slot,actor); if(!actor.rig) scene.add(actor.group);
         actor.tag=nameplate();
@@ -257,7 +257,7 @@ export function createHalay(canvas) {
   }
   // A sender can celebrate without first joining the halay. Give them their own
   // temporary performer; the bride and groom never stand in for someone else.
-  const visitor=makeDancer(3,'guest');
+  const visitor=makeDancer(3,'guest',characters);
   const visitorTag=nameplate();
   labels.append(visitorTag);visitor.tag=visitorTag;visitor.fresh=true;visitor.group.visible=false;
   scene.add(visitor.group);

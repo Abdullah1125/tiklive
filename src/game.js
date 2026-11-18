@@ -1,9 +1,9 @@
-import {resolveWeddingGift, scheduleShot, avatarUrl} from '../public/wedding.js';
+import {resolveWeddingGift, scheduleShot, avatarUrl, isWedding} from '../public/wedding.js';
 const colors = ['#fa654e', '#77c9fb', '#f2cb60', '#a693ea', '#75d0a2', '#f68fc1'];
-export const gameNames = {rally: 'Sahil Rallisi', halay: 'Blok Karakterler Düğünü'};
+export const gameNames = {rally: 'Sahil Rallisi', halay: 'Hamam Böcekleri Düğünü', blok: 'Blok Karakterler Düğünü'};
 
 export function createGame(game = 'rally') {
-  return {game, players: [], queue: [], capacity:game === 'halay' ? 56 : 16, likes: 0, gifts: 0, round: 1,
+  return {game, players: [], queue: [], capacity:isWedding(game) ? 56 : 16, likes: 0, gifts: 0, round: 1,
     effect: null, giftMoment: null, roles: {}, shots: [], celebrations: [], chatMessages: [], leader: null, winner: null, nextRoundAt: 0, activity: [], serial: 0};
 }
 
@@ -23,7 +23,7 @@ function addPlayer(state, member, joinedAt) {
   const player = {...memberInfo(member), color: colors[state.players.length % colors.length], score: 0};
   if (joinedAt !== undefined) player.joinedAt = joinedAt;
   state.players.push(player);
-  if (state.game === 'halay' && !state.nextRoundAt) state.nextRoundAt = Date.now() + 120000;
+  if (isWedding(state.game) && !state.nextRoundAt) state.nextRoundAt = Date.now() + 120000;
   state.effect = {type: 'join', at: Date.now(), playerId: id};
   note(state, 'join', name, state.game === 'rally' ? 'piste katıldı' : 'halaya katıldı');
 }
@@ -34,11 +34,11 @@ export function nextRound(state) {
   state.nextRoundAt = 0;
   state.effect = null;
   state.giftMoment = null;
-  if (state.game !== 'halay') state.leader = null;
+  if (!isWedding(state.game)) state.leader = null;
   // Waiting viewers take the next available seats before returning players.
   const lineup = [...state.queue, ...state.players];
   state.players = lineup.slice(0, state.capacity).map((p, i) => ({...p, color: colors[i % colors.length], score: 0}));
-  if (state.game === 'halay' && (state.players.length || Object.keys(state.roles).length)) state.nextRoundAt = Date.now() + 120000;
+  if (isWedding(state.game) && (state.players.length || Object.keys(state.roles).length)) state.nextRoundAt = Date.now() + 120000;
   if (state.leader && !state.players.some(p => p.id === state.leader)) state.leader = null;
   state.queue = lineup.slice(state.capacity).map(memberInfo);
   note(state, 'system', 'Oyun', state.round + '. tur başladı');
@@ -83,7 +83,7 @@ function weddingAction(state, event, now) {
 }
 
 function joinChoice(text, game) {
-  if (game !== 'halay') {
+  if (!isWedding(game)) {
     const command = text.toLocaleLowerCase('tr').replace(/^!/, '');
     return command === 'katıl' || command === 'katil' ? {} : null;
   }
@@ -115,7 +115,7 @@ export function applyEvent(state, event, now = Date.now()) {
   const player = state.players.find(p => p.id === id);
   const amount = Math.max(1, Math.min(100000, Math.trunc(Number(event.amount)) || 1));
   if (type === 'giftCue') {
-    if (state.game === 'halay') weddingAction(state,event,now);
+    if (isWedding(state.game)) weddingAction(state,event,now);
     return;
   }
   if (type === 'chat') {
@@ -129,8 +129,8 @@ export function applyEvent(state, event, now = Date.now()) {
       }
       const member = memberInfo({id, name, ...choice, avatar});
       if (state.players.length < state.capacity) {
-        addPlayer(state, member, state.game === 'halay' ? now : undefined);
-        if (state.game === 'halay') scheduleShot(state,{tier:'join',playerId:id,name},now);
+        addPlayer(state, member, isWedding(state.game) ? now : undefined);
+        if (isWedding(state.game)) scheduleShot(state,{tier:'join',playerId:id,name},now);
       }
       else if (state.queue.length < 128) {
         state.queue.push(member);
@@ -138,7 +138,7 @@ export function applyEvent(state, event, now = Date.now()) {
       }
       return;
     }
-    if (state.game === 'halay') {recordSpeech(state,event,now); return;}
+    if (isWedding(state.game)) {recordSpeech(state,event,now); return;}
     if (text.toLocaleLowerCase('tr').replace(/^!/, '') !== 'gaz' || !player || state.winner) return;
     player.score += 10;
     note(state, 'chat', name, 'gaz verdi');
@@ -147,7 +147,7 @@ export function applyEvent(state, event, now = Date.now()) {
     else state.gifts += amount;
     note(state, type, name, type === 'like' ? amount + ' beğeni gönderdi' : amount + ' × ' + (event.gift || 'hediye') + ' gönderdi' + (event.coins ? ' (' + event.coins + ' jeton/adet)' : ''));
     state.effect = {type, at: now, playerId: id};
-    if (state.game === 'halay' && type === 'gift' && !event.cued) weddingAction(state,event,now);
+    if (isWedding(state.game) && type === 'gift' && !event.cued) weddingAction(state,event,now);
     if (player && !state.winner) player.score += type === 'gift' ? amount * 15 : amount;
   } else return;
   if (state.game === 'rally' && !state.winner && player?.score >= 100) {
@@ -158,5 +158,5 @@ export function applyEvent(state, event, now = Date.now()) {
     state.nextRoundAt = now + 6000;
     note(state, 'win', name, state.round + '. turu kazandı');
   }
-  if (state.game === 'halay' && state.players.length && !state.nextRoundAt) state.nextRoundAt = now + 120000;
+  if (isWedding(state.game) && state.players.length && !state.nextRoundAt) state.nextRoundAt = now + 120000;
 }
